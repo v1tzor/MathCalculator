@@ -1,0 +1,69 @@
+package ru.aleshin.features.settings.impl.presentation.ui.screensmodel
+
+import android.util.Log
+import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.screen.Screen
+import ru.aleshin.core.utils.managers.CoroutineManager
+import ru.aleshin.core.utils.platform.screenmodel.BaseScreenModel
+import ru.aleshin.features.settings.impl.di.holder.SettingsComponentHolder
+import ru.aleshin.features.settings.impl.navigations.NavigationManager
+import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsAction
+import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsEffect
+import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsEvent
+import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsViewState
+import javax.inject.Inject
+
+/**
+ * @author Stanislav Aleshin on 01.03.2023.
+ */
+internal class SettingsScreenModel @Inject constructor(
+    private val navigationManager: NavigationManager,
+    communicator: SettingsStateCommunicator,
+    actor: SettingsActor,
+    coroutineManager: CoroutineManager,
+) : BaseScreenModel<SettingsViewState, SettingsEvent, SettingsAction, SettingsEffect>(
+    stateCommunicator = communicator,
+    actor = actor,
+    coroutineManager = coroutineManager,
+) {
+
+    init {
+        dispatchEvent(SettingsEvent.Init)
+    }
+
+    override fun handleEffect(effect: SettingsEffect) = when (effect) {
+        is SettingsEffect.ShowPreviousFeature -> navigationManager.showPreviousFeature()
+        is SettingsAction -> runOnBackground {
+            val currentState = stateCommunicator.read()
+            val newState = reduce(effect, currentState)
+
+            stateCommunicator.update(newState)
+        }
+    }
+
+    override fun reduce(action: SettingsAction, currentState: SettingsViewState) = when (action) {
+        is SettingsAction.ChangeAllSettings -> currentState.copy(
+            themeSettings = action.settings.themeSettings,
+            failure = null,
+        )
+        is SettingsAction.ShowError -> currentState.copy(
+            themeSettings = null,
+            failure = action.failures,
+        )
+        is SettingsAction.ChangeThemeSettings -> currentState.copy(
+            themeSettings = action.settings,
+            failure = null,
+        )
+    }
+
+    override fun onDispose() {
+        super.onDispose()
+        SettingsComponentHolder.clear().also { Log.e("test", "Clear -> SettingsComponent") }
+    }
+}
+
+@Composable
+internal fun Screen.rememberSettingsScreenModel() = rememberScreenModel {
+    SettingsComponentHolder.fetchComponent().fetchSettingsScreenModel()
+}

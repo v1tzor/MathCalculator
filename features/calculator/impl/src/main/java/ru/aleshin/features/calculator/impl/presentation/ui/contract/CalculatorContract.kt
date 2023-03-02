@@ -26,7 +26,6 @@ internal sealed class CalculatorEvent : BaseEvent {
 }
 
 internal sealed class CalculatorEffect : BaseEffect {
-    object ShowPreviousFeature : CalculatorEffect()
     object ShowSettingsFeature : CalculatorEffect()
 }
 

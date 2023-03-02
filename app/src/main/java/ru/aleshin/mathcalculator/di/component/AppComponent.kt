@@ -4,7 +4,6 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import ru.aleshin.core.utils.di.ApplicationContext
-import ru.aleshin.core.utils.navigations.navigator.NavigatorManager
 import ru.aleshin.features.calculator.impl.di.CalculatorFeatureDependencies
 import ru.aleshin.features.settings.impl.di.SettingsFeatureDependencies
 import ru.aleshin.mathcalculator.di.modules.*
@@ -30,7 +29,6 @@ interface AppComponent : SettingsFeatureDependencies, CalculatorFeatureDependenc
 
     fun inject(activity: MainActivity)
     fun fetchSplashScreenModel(): SplashScreenModel
-    fun fetchNavigatorManager(): NavigatorManager
 
     @Component.Builder
     interface Builder {

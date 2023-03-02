@@ -13,7 +13,7 @@ interface SplashActor : Actor<SplashEvent, SplashEffect> {
 
     class Base @Inject constructor() : SplashActor {
         override fun handleEvent(event: SplashEvent) = when (event) {
-            SplashEvent.Init -> flowOf(SplashEffect.NavigateToNav)
+            SplashEvent.AfterSplash -> flowOf(SplashEffect.NavigateToCalculator)
         }
     }
 }

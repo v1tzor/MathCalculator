@@ -28,7 +28,6 @@ internal class CalculatorScreenModel @Inject constructor(
 ) {
     override fun handleEffect(effect: CalculatorEffect) = when (effect) {
         is CalculatorEffect.ShowSettingsFeature -> navigationManager.navigateToSettingsFeature()
-        is CalculatorEffect.ShowPreviousFeature -> navigationManager.navigateToBack()
         is CalculatorAction -> runOnBackground {
             val currentState = stateCommunicator.read()
             val newState = reduce(effect, currentState)

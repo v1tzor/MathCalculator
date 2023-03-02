@@ -7,7 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import ru.aleshin.mathcalculator.di.component.AppComponent
 
 /**
- * @author Stanislav Aleshin on 14.02.2023.
+ * @author Stanislav Aleshin on 01.03.2023.
  */
 class MathCalculatorApp : Application() {
 

@@ -26,7 +26,7 @@ class SplashScreenModel @Inject constructor(
     coroutineManager = coroutineManager,
 ) {
     override fun handleEffect(effect: SplashEffect) = when (effect) {
-        is SplashEffect.NavigateToNav -> navigationManager.navigateToCalculatorFeature()
+        is SplashEffect.NavigateToCalculator -> navigationManager.navigateToCalculatorFeature()
         is SplashAction -> runOnBackground {
             val currentState = stateCommunicator.read()
             val newState = reduce(effect, currentState)

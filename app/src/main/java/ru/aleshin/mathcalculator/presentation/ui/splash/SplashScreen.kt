@@ -20,7 +20,7 @@ class SplashScreen : Screen {
         val screenModel = rememberSplashScreenModel()
         MainTheme {
             Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                SplashContent(onSplashExit = { screenModel.dispatchEvent(SplashEvent.Init) })
+                SplashContent(onSplashExit = { screenModel.dispatchEvent(SplashEvent.AfterSplash) })
             }
         }
     }

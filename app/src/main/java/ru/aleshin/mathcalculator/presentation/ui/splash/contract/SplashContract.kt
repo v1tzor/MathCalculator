@@ -15,11 +15,11 @@ sealed class SplashViewState : BaseViewState {
 }
 
 sealed class SplashEvent : BaseEvent {
-    object Init : SplashEvent()
+    object AfterSplash : SplashEvent()
 }
 
 sealed class SplashEffect : BaseEffect {
-    object NavigateToNav : SplashEffect()
+    object NavigateToCalculator : SplashEffect()
 }
 
 sealed class SplashAction : SplashEffect(), BaseAction

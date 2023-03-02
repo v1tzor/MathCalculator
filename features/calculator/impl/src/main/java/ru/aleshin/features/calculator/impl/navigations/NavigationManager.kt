@@ -10,18 +10,12 @@ import javax.inject.Provider
  */
 internal interface NavigationManager {
 
-    fun navigateToBack()
-
     fun navigateToSettingsFeature()
 
     class Base @Inject constructor(
         private val settingsFeatureStarter: Provider<SettingsFeatureStarter>,
         private val router: Router,
     ) : NavigationManager {
-
-        override fun navigateToBack() {
-            router.navigateBack()
-        }
 
         override fun navigateToSettingsFeature() {
             val screen = settingsFeatureStarter.get().provideMainScreen()

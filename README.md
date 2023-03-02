@@ -24,7 +24,7 @@ Main components:
 5. WorkProcessor - main work (with managers, interactors etc)
 6. State Communicator - state storage
 7. CoroutineManager - working with asynchrony
-8. Contract - contains ViewState, Effects, Actions 
+8. Contract - contains ViewState, Events, Effects, Actions
 
 ## License
 Copyright 2023 Stanislav Aleshin

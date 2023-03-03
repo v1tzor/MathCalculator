@@ -1,9 +1,26 @@
+/*
+ * Copyright 2023 Stanislav Aleshin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package ru.aleshin.core.utils.managers
 
 import ru.aleshin.core.utils.functional.Constants
 import javax.inject.Inject
 
 /**
+ * The math logic required by the courses
+ *
  * @author Stanislav Aleshin on 02.03.2023.
  */
 interface MathManager {
@@ -20,13 +37,13 @@ interface MathManager {
             val lastSymbol: Char
             if (value.length !== 0) {
                 lastSymbol = allChars[value.length - 1]
-                if (lastSymbol.toString() == Constants.Symbols.MINUS || lastSymbol.toString() == Constants.Symbols.MINUS) {
+                if (lastSymbol.toString() == Constants.Symbols.PLUS || lastSymbol.toString() == Constants.Symbols.MINUS) {
                     val chars: CharArray = value.toCharArray()
-                    chars[value.length - 1] = '-'
+                    chars[value.length - 1] = '+'
                     result = String(chars)
                 } else {
                     if (!value.contains(Constants.Symbols.MINUS) || !value.contains(Constants.Symbols.PLUS)) {
-                        result = "$value-"
+                        result = "$value+"
                     }
                 }
             }
@@ -39,7 +56,7 @@ interface MathManager {
             val lastSymbol: Char
             if (value.length !== 0) {
                 lastSymbol = allChars[value.length - 1]
-                if (lastSymbol.toString() == Constants.Symbols.MINUS || lastSymbol.toString() == Constants.Symbols.MINUS) {
+                if (lastSymbol.toString() == Constants.Symbols.PLUS || lastSymbol.toString() == Constants.Symbols.MINUS) {
                     val chars: CharArray = value.toCharArray()
                     chars[value.length - 1] = '-'
                     result = String(chars)

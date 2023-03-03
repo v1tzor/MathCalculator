@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 Stanislav Aleshin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package ru.aleshin.features.calculator.impl.presentation.ui.views
 
 import androidx.compose.foundation.layout.*
@@ -8,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.aleshin.core.ui.theme.MathCalculatorRes
 import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorThemeRes
@@ -18,7 +35,7 @@ import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorThemeRes
 @Composable
 internal fun CalculateFirstLine(
     onNumberClick: (String) -> Unit,
-    onRemoveButtonClick: () -> Unit,
+    onRemoveAllButtonClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
@@ -41,7 +58,8 @@ internal fun CalculateFirstLine(
         )
         ActionButton(
             modifier = Modifier.weight(1f),
-            onClick = onRemoveButtonClick,
+            color = MaterialTheme.colorScheme.errorContainer,
+            onClick = onRemoveAllButtonClick,
             title = CalculatorThemeRes.strings.removeButtonTitle,
         )
     }
@@ -50,7 +68,7 @@ internal fun CalculateFirstLine(
 @Composable
 internal fun CalculateSecondLine(
     onNumberClick: (String) -> Unit,
-    onPlusButtonClick: () -> Unit,
+    onRemoveButtonClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
@@ -73,8 +91,9 @@ internal fun CalculateSecondLine(
         )
         ActionButton(
             modifier = Modifier.weight(1f),
-            onClick = onPlusButtonClick,
-            title = CalculatorThemeRes.strings.plusButtonTitle,
+            onClick = onRemoveButtonClick,
+            color = MaterialTheme.colorScheme.errorContainer,
+            title = CalculatorThemeRes.strings.removeAllButtonTitle,
         )
     }
 }
@@ -82,7 +101,7 @@ internal fun CalculateSecondLine(
 @Composable
 internal fun CalculateThirtyLine(
     onNumberClick: (String) -> Unit,
-    onMinusButtonClick: () -> Unit,
+    onSumButtonClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
@@ -105,8 +124,8 @@ internal fun CalculateThirtyLine(
         )
         ActionButton(
             modifier = Modifier.weight(1f),
-            onClick = onMinusButtonClick,
-            title = CalculatorThemeRes.strings.minusButtonTitle,
+            onClick = onSumButtonClick,
+            title = CalculatorThemeRes.strings.plusButtonTitle,
         )
     }
 }
@@ -114,14 +133,14 @@ internal fun CalculateThirtyLine(
 @Composable
 internal fun CalculateFourthLine(
     onNumberClick: (String) -> Unit,
+    onDifferenceButtonClick: () -> Unit,
     onResultButtonClick: () -> Unit,
-    onRemoveAllButtonClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        ActionButton(
+        NumberButton(
             modifier = Modifier.weight(1f),
             onClick = {},
             title = CalculatorThemeRes.strings.emptyButtonTitle,
@@ -129,17 +148,17 @@ internal fun CalculateFourthLine(
         NumberButton(
             modifier = Modifier.weight(1f),
             onClick = onNumberClick,
-            title = CalculatorThemeRes.strings.twoButtonTitle,
+            title = CalculatorThemeRes.strings.zeroButtonTitle,
         )
-        ActionButton(
+        NumberButton(
             modifier = Modifier.weight(1f),
-            onClick = onRemoveAllButtonClick,
-            title = CalculatorThemeRes.strings.removeAllButtonTitle,
-        )
-        ActionButton(
-            modifier = Modifier.weight(1f),
-            onClick = onResultButtonClick,
+            onClick = { onResultButtonClick.invoke() },
             title = CalculatorThemeRes.strings.resultButtonTitle,
+        )
+        ActionButton(
+            modifier = Modifier.weight(1f),
+            onClick = onDifferenceButtonClick,
+            title = CalculatorThemeRes.strings.minusButtonTitle,
         )
     }
 }
@@ -172,12 +191,13 @@ internal fun NumberButton(
 internal fun ActionButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.secondaryContainer,
     title: String,
 ) {
     Surface(
         modifier = modifier.requiredHeight(64.dp),
         shape = MaterialTheme.shapes.small,
-        tonalElevation = MathCalculatorRes.elevations.levelThree,
+        color = color,
         onClick = onClick,
     ) {
         Box(contentAlignment = Alignment.Center) {
@@ -185,6 +205,7 @@ internal fun ActionButton(
                 text = title,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
             )
         }
     }

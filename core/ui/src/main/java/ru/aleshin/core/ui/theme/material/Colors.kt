@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 Stanislav Aleshin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package ru.aleshin.core.ui.theme.material
 
 import android.os.Build
@@ -10,7 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 /**
  * @author Stanislav Aleshin on 01.03.2023.
  */
-val baseDarkColorScheme = darkColorScheme(
+internal val baseDarkColorScheme = darkColorScheme(
     primary = Color(0xFF96CCFF),
     onPrimary = Color(0xFF003353),
     primaryContainer = Color(0xFF004A76),
@@ -35,7 +50,7 @@ val baseDarkColorScheme = darkColorScheme(
     onErrorContainer = Color(0xFFFFB4AB),
 )
 
-val baseLightColorScheme = lightColorScheme(
+internal val baseLightColorScheme = lightColorScheme(
     primary = Color(0xFF00639A),
     onPrimary = Color(0xFFFFFFFF),
     primaryContainer = Color(0xFFCEE5FF),

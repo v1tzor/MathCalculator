@@ -14,7 +14,7 @@ Support:
      <td>Settings Feature</td>
   </tr>
   <tr>
-    <td valign="top"><img src="https://i.imgur.com/UYF7OQy.png" align="left" width="350dp"></td>
+    <td valign="top"><img src="https://i.imgur.com/BbSlWzG.png" align="left" width="350dp"></td>
     <td valign="top"><img src="https://i.imgur.com/TBjt1nC.png" align="right" width="350dp"></td>
   </tr>
  </table>

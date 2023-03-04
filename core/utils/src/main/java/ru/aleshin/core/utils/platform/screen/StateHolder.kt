@@ -15,6 +15,7 @@
 */
 package ru.aleshin.core.utils.platform.screen
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +33,10 @@ fun <S : BaseViewState> rememberViewState(
 ): S {
     val state = rememberSaveable { mutableStateOf(initialValue) }
     LaunchedEffect(Unit) {
-        stateProvider.collectState { state.value = it }
+        stateProvider.collectState {
+            state.value = it
+            Log.e("test", "fetch state -> $it")
+        }
     }
 
     return state.value

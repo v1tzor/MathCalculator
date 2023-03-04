@@ -15,9 +15,10 @@
 */
 package ru.aleshin.features.calculator.impl.presentation.ui
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,10 +33,8 @@ import ru.aleshin.core.ui.theme.material.ThemeColorsUiType
 import ru.aleshin.core.ui.theme.tokens.LanguageUiType
 import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorTheme
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorViewState
+import ru.aleshin.features.calculator.impl.presentation.ui.views.*
 import ru.aleshin.features.calculator.impl.presentation.ui.views.CalculateFirstLine
-import ru.aleshin.features.calculator.impl.presentation.ui.views.CalculateFourthLine
-import ru.aleshin.features.calculator.impl.presentation.ui.views.CalculateSecondLine
-import ru.aleshin.features.calculator.impl.presentation.ui.views.CalculateThirtyLine
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
@@ -45,61 +44,87 @@ internal fun CalculatorContent(
     modifier: Modifier = Modifier,
     state: CalculatorViewState,
     onNumberSelected: (String) -> Unit,
-    onClearAction: () -> Unit,
-    onClearLastAction: () -> Unit,
-    onSumAction: () -> Unit,
-    onDifferenceAction: () -> Unit,
-    onResultAction: () -> Unit,
+    onOperatorSelected: (String) -> Unit,
+    onResultButtonClick: () -> Unit,
+    onClearLastButtonClick: () -> Unit,
+    onClearAllButtonClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        CalculatorTitle(text = state.currentValue)
+        CalculatorTitle(calculateLine = state.currentValue, result = state.result)
         Spacer(modifier = Modifier.weight(1f))
         Divider(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp),
             color = MaterialTheme.colorScheme.outlineVariant,
         )
-        Column(
-            modifier = Modifier.padding(bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            CalculateFirstLine(
-                onNumberClick = onNumberSelected,
-                onRemoveAllButtonClick = onClearLastAction,
-            )
-            CalculateSecondLine(
-                onNumberClick = onNumberSelected,
-                onRemoveButtonClick = onClearAction,
-            )
-            CalculateThirtyLine(
-                onNumberClick = onNumberSelected,
-                onSumButtonClick = onSumAction,
-            )
-            CalculateFourthLine(
-                onNumberClick = onNumberSelected,
-                onResultButtonClick = onResultAction,
-                onDifferenceButtonClick = onDifferenceAction,
+        Row(modifier = Modifier.padding(bottom = 32.dp)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                CalculateFirstLine(
+                    onOperatorClick = onOperatorSelected,
+                    onClearAllClick = onClearAllButtonClick,
+                )
+                CalculateSecondLine(onNumberClick = onNumberSelected)
+                CalculateThirtyLine(onNumberClick = onNumberSelected)
+                CalculateFourthLine(onNumberClick = onNumberSelected)
+                CalculateFifthLine(
+                    onNumberClick = onNumberSelected,
+                    onOperatorClick = onOperatorSelected,
+                )
+            }
+            CalculateVerticalColumn(
+                modifier = Modifier.width(100.dp),
+                onOperatorClick = onOperatorSelected,
+                onClearLastClick = onClearLastButtonClick,
+                onResultClick = onResultButtonClick,
             )
         }
     }
 }
 
 @Composable
-internal fun CalculatorTitle(text: String) {
-    Text(
-        modifier = Modifier.fillMaxWidth()
-            .height(200.dp)
-            .padding(horizontal = 16.dp, vertical = 32.dp)
-            .animateContentSize(),
-        textAlign = TextAlign.Right,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        text = text,
-        color = MaterialTheme.colorScheme.onSurface,
-        style = MaterialTheme.typography.displayMedium,
-    )
+internal fun CalculatorTitle(calculateLine: String, result: String) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp)) {
+        val scrollState = rememberScrollState()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(state = scrollState, reverseScrolling = true),
+            horizontalArrangement = Arrangement.End,
+        ) {
+//            if (calculateLine == null) {
+//                Text(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    textAlign = TextAlign.Right,
+//                    text = "0",
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                    style = MaterialTheme.typography.displayMedium,
+//                )
+//            } else {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Right,
+                maxLines = 1,
+                text = calculateLine,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.displayMedium,
+            )
+//            }
+        }
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Right,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            text = result,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -114,12 +139,11 @@ internal fun SettingsTopAppBar_Light_Preview() {
             Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 CalculatorContent(
                     state = CalculatorViewState(),
-                    onClearLastAction = {},
-                    onClearAction = {},
                     onNumberSelected = {},
-                    onDifferenceAction = {},
-                    onSumAction = {},
-                    onResultAction = {},
+                    onOperatorSelected = {},
+                    onResultButtonClick = {},
+                    onClearLastButtonClick = {},
+                    onClearAllButtonClick = {},
                 )
             }
         }
@@ -138,12 +162,11 @@ internal fun SettingsTopAppBar_Dark_Preview() {
             Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 CalculatorContent(
                     state = CalculatorViewState(),
-                    onClearLastAction = {},
-                    onClearAction = {},
                     onNumberSelected = {},
-                    onDifferenceAction = {},
-                    onSumAction = {},
-                    onResultAction = {},
+                    onOperatorSelected = {},
+                    onResultButtonClick = {},
+                    onClearLastButtonClick = {},
+                    onClearAllButtonClick = {},
                 )
             }
         }

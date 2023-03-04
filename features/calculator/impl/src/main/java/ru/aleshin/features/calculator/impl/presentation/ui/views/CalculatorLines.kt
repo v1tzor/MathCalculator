@@ -34,11 +34,38 @@ import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorThemeRes
  */
 @Composable
 internal fun CalculateFirstLine(
-    onNumberClick: (String) -> Unit,
-    onRemoveAllButtonClick: () -> Unit,
+    onOperatorClick: (String) -> Unit,
+    onClearAllClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        ActionButton(
+            modifier = Modifier.weight(1f),
+            onClick = { onClearAllClick.invoke() },
+            color = MaterialTheme.colorScheme.errorContainer,
+            title = CalculatorThemeRes.strings.clearAllButtonTitle,
+        )
+        ActionButton(
+            modifier = Modifier.weight(1f),
+            onClick = onOperatorClick,
+            title = CalculatorThemeRes.strings.splitButtonTitle,
+        )
+        ActionButton(
+            modifier = Modifier.weight(1f),
+            onClick = onOperatorClick,
+            title = CalculatorThemeRes.strings.multiplyButtonTitle,
+        )
+    }
+}
+
+@Composable
+internal fun CalculateSecondLine(
+    onNumberClick: (String) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         NumberButton(
@@ -56,22 +83,15 @@ internal fun CalculateFirstLine(
             onClick = onNumberClick,
             title = CalculatorThemeRes.strings.nineButtonTitle,
         )
-        ActionButton(
-            modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.errorContainer,
-            onClick = onRemoveAllButtonClick,
-            title = CalculatorThemeRes.strings.removeButtonTitle,
-        )
     }
 }
 
 @Composable
-internal fun CalculateSecondLine(
+internal fun CalculateThirtyLine(
     onNumberClick: (String) -> Unit,
-    onRemoveButtonClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         NumberButton(
@@ -89,22 +109,15 @@ internal fun CalculateSecondLine(
             onClick = onNumberClick,
             title = CalculatorThemeRes.strings.sixButtonTitle,
         )
-        ActionButton(
-            modifier = Modifier.weight(1f),
-            onClick = onRemoveButtonClick,
-            color = MaterialTheme.colorScheme.errorContainer,
-            title = CalculatorThemeRes.strings.removeAllButtonTitle,
-        )
     }
 }
 
 @Composable
-internal fun CalculateThirtyLine(
+internal fun CalculateFourthLine(
     onNumberClick: (String) -> Unit,
-    onSumButtonClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         NumberButton(
@@ -122,22 +135,16 @@ internal fun CalculateThirtyLine(
             onClick = onNumberClick,
             title = CalculatorThemeRes.strings.threeButtonTitle,
         )
-        ActionButton(
-            modifier = Modifier.weight(1f),
-            onClick = onSumButtonClick,
-            title = CalculatorThemeRes.strings.plusButtonTitle,
-        )
     }
 }
 
 @Composable
-internal fun CalculateFourthLine(
+internal fun CalculateFifthLine(
     onNumberClick: (String) -> Unit,
-    onDifferenceButtonClick: () -> Unit,
-    onResultButtonClick: () -> Unit,
+    onOperatorClick: (String) -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         NumberButton(
@@ -152,13 +159,41 @@ internal fun CalculateFourthLine(
         )
         NumberButton(
             modifier = Modifier.weight(1f),
-            onClick = { onResultButtonClick.invoke() },
-            title = CalculatorThemeRes.strings.resultButtonTitle,
+            onClick = onOperatorClick,
+            title = CalculatorThemeRes.strings.dotButtonTitle,
+        )
+    }
+}
+
+@Composable
+internal fun CalculateVerticalColumn(
+    modifier: Modifier = Modifier,
+    onOperatorClick: (String) -> Unit,
+    onResultClick: () -> Unit,
+    onClearLastClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier.padding(start = 8.dp, end = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        ActionButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onClearLastClick.invoke() },
+            title = CalculatorThemeRes.strings.clearLastButtonTitle,
         )
         ActionButton(
-            modifier = Modifier.weight(1f),
-            onClick = onDifferenceButtonClick,
-            title = CalculatorThemeRes.strings.minusButtonTitle,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onOperatorClick,
+            title = CalculatorThemeRes.strings.sumButtonTitle,
+        )
+        ActionButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onOperatorClick,
+            title = CalculatorThemeRes.strings.differenceButtonTitle,
+        )
+        ActionResultButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onResultClick,
         )
     }
 }
@@ -190,7 +225,7 @@ internal fun NumberButton(
 @OptIn(ExperimentalMaterial3Api::class)
 internal fun ActionButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     color: Color = MaterialTheme.colorScheme.secondaryContainer,
     title: String,
 ) {
@@ -198,6 +233,30 @@ internal fun ActionButton(
         modifier = modifier.requiredHeight(64.dp),
         shape = MaterialTheme.shapes.small,
         color = color,
+        onClick = { onClick.invoke(title) },
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+internal fun ActionResultButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    val title = CalculatorThemeRes.strings.resultButtonTitle
+    Surface(
+        modifier = modifier.requiredHeight(136.dp),
+        shape = MaterialTheme.shapes.small,
+        color = MaterialTheme.colorScheme.secondaryContainer,
         onClick = onClick,
     ) {
         Box(contentAlignment = Alignment.Center) {

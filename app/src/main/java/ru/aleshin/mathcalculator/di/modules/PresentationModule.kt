@@ -22,7 +22,7 @@ import dagger.Binds
 import dagger.Module
 import ru.aleshin.core.utils.di.ScreenModelKey
 import ru.aleshin.core.utils.managers.CoroutineManager
-import ru.aleshin.core.utils.managers.MathManager
+import ru.aleshin.mathcalculator.navigation.GlobalNavigationManager
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainActor
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainStateCommunicator
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainViewModel
@@ -46,11 +46,7 @@ interface PresentationModule {
 
     @Binds
     @Singleton
-    fun bindMathManager(manager: MathManager.Base): MathManager
-
-    @Binds
-    @Singleton
-    fun bindAppNavigationManager(manager: ru.aleshin.mathcalculator.navigation.GlobalNavigationManager.Base): ru.aleshin.mathcalculator.navigation.GlobalNavigationManager
+    fun bindAppNavigationManager(manager: GlobalNavigationManager.Base): GlobalNavigationManager
 
     // Main ViewModel
 

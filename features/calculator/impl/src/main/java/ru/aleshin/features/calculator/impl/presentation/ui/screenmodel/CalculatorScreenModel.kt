@@ -56,7 +56,7 @@ internal class CalculatorScreenModel @Inject constructor(
         currentState: CalculatorViewState,
     ) = when (action) {
         is CalculatorAction.ChangeCurrentValue -> currentState.copy(currentValue = action.value)
-        is CalculatorAction.ChangeIsPlus -> currentState.copy(isPlus = action.isPlus)
+        is CalculatorAction.ChangeResult -> currentState.copy(result = action.result)
     }
 
     override fun onDispose() {

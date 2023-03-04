@@ -26,18 +26,18 @@ import ru.aleshin.core.utils.platform.screenmodel.contract.BaseViewState
  */
 @Parcelize
 internal data class CalculatorViewState(
-    val currentValue: String = "0",
-    val isPlus: Boolean = false,
+    val currentValue: String = "",
+    val result: String = "",
 ) : BaseViewState
 
 internal sealed class CalculatorEvent : BaseEvent {
-    object PressSettingsButton : CalculatorEvent()
     data class SelectedNumber(val number: String, val current: String) : CalculatorEvent()
-    data class SumNumbers(val current: String) : CalculatorEvent()
-    data class DifferenceNumbers(val current: String) : CalculatorEvent()
+    data class SelectedMathOperator(val operator: String, val current: String) : CalculatorEvent()
+    data class PressResultButton(val result: String) : CalculatorEvent()
     data class ClearLastNumber(val current: String) : CalculatorEvent()
     object ClearField : CalculatorEvent()
-    data class PressResultButton(val current: String) : CalculatorEvent()
+
+    object PressSettingsButton : CalculatorEvent()
 }
 
 internal sealed class CalculatorEffect : BaseEffect {
@@ -46,5 +46,5 @@ internal sealed class CalculatorEffect : BaseEffect {
 
 internal sealed class CalculatorAction : CalculatorEffect(), BaseAction {
     data class ChangeCurrentValue(val value: String) : CalculatorAction()
-    data class ChangeIsPlus(val isPlus: Boolean) : CalculatorAction()
+    data class ChangeResult(val result: String) : CalculatorAction()
 }

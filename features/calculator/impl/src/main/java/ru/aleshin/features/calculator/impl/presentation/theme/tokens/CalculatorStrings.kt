@@ -23,10 +23,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
 internal data class CalculatorStrings(
     val calculatorTitle: String,
     val settingsIconDesc: String,
-    val plusButtonTitle: String,
-    val minusButtonTitle: String,
-    val removeButtonTitle: String,
-    val removeAllButtonTitle: String,
+    val sumButtonTitle: String,
+    val differenceButtonTitle: String,
+    val clearLastButtonTitle: String,
+    val clearAllButtonTitle: String,
     val nineButtonTitle: String,
     val eightButtonTitle: String,
     val sevenButtonTitle: String,
@@ -39,6 +39,9 @@ internal data class CalculatorStrings(
     val zeroButtonTitle: String,
     val resultButtonTitle: String,
     val emptyButtonTitle: String,
+    val dotButtonTitle: String,
+    val multiplyButtonTitle: String,
+    val splitButtonTitle: String,
 )
 
 internal val russianSettingsString = CalculatorStrings(
@@ -54,12 +57,15 @@ internal val russianSettingsString = CalculatorStrings(
     twoButtonTitle = "2",
     oneButtonTitle = "1",
     zeroButtonTitle = "0",
-    plusButtonTitle = "+",
-    minusButtonTitle = "-",
-    removeButtonTitle = "Del",
-    removeAllButtonTitle = "X",
+    sumButtonTitle = "+",
+    differenceButtonTitle = "-",
+    clearLastButtonTitle = "Del",
+    clearAllButtonTitle = "C",
     resultButtonTitle = "=",
     emptyButtonTitle = " ",
+    splitButtonTitle = "/",
+    multiplyButtonTitle = "*",
+    dotButtonTitle = "."
 )
 
 internal val englishSettingsString = CalculatorStrings(
@@ -75,12 +81,15 @@ internal val englishSettingsString = CalculatorStrings(
     twoButtonTitle = "2",
     oneButtonTitle = "1",
     zeroButtonTitle = "0",
-    plusButtonTitle = "+",
-    minusButtonTitle = "-",
-    removeButtonTitle = "Del",
-    removeAllButtonTitle = "X",
+    sumButtonTitle = "+",
+    differenceButtonTitle = "-",
+    clearLastButtonTitle = "Del",
+    clearAllButtonTitle = "C",
     resultButtonTitle = "=",
     emptyButtonTitle = " ",
+    splitButtonTitle = "/",
+    multiplyButtonTitle = "*",
+    dotButtonTitle = "."
 )
 
 internal val LocalCalculatorStrings = staticCompositionLocalOf<CalculatorStrings> {

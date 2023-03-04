@@ -61,7 +61,8 @@ internal interface CalculatorWorkProcessor : WorkProcessor<CalculatorWorkCommand
                 if (current.isNotEmpty()) {
                     if (current.last().isNotMathOperator()) {
                         if (operator == ".") {
-                            val lastOperator = current.indexOfLast { it == '-' || it == '+' || it == '*' || it == '/' }
+                            val lastOperator =
+                                current.indexOfLast { it == '-' || it == '+' || it == '*' || it == '/' }
                             val lastDot = current.indexOfLast { it == '.' }
                             if (lastDot > lastOperator) return@flow
                         }
@@ -94,24 +95,26 @@ internal interface CalculatorWorkProcessor : WorkProcessor<CalculatorWorkCommand
             var count = 0
 
             for (i in current.iterator()) {
-                if (i.isNotMathOperator() || count == 0 && i == '-') number += i
-                if ((count == 0 && i != '-') || (count != 0 && !i.isNotMathOperator()) || count == current.length - 1) {
-                    if (lastOperator == '+' || lastOperator == '-') {
-                        if (lastOperator == '-') if (i != '*' && i != '/') result -= number.toFloat()
-                        if (lastOperator == '+') if (i != '*' && i != '/') result += number.toFloat()
-                        if (i == '*' || i == '/') {
-                            multiply = if (lastOperator == '-') -number.toFloat() else number.toFloat()
-                        } else {
-                            if (multiply != 1f) result += multiply
-                            multiply = 1f
+                if (i.isNotMathOperator() || (count == 0 && i == '-')) number += i
+                if (count == 0 && i != '-' || count != 0) {
+                    if (!i.isNotMathOperator() || count == current.length - 1) {
+                        if (lastOperator == '+' || lastOperator == '-') {
+                            if (lastOperator == '-') if (i != '*' && i != '/') result -= number.toFloat()
+                            if (lastOperator == '+') if (i != '*' && i != '/') result += number.toFloat()
+                            if (i == '*' || i == '/') {
+                                multiply = if (lastOperator == '-') -number.toFloat() else number.toFloat()
+                            } else {
+                                if (multiply != 1f) result += multiply
+                                multiply = 1f
+                            }
+                        } else if (lastOperator == '*' || lastOperator == '/') {
+                            if (lastOperator == '*') multiply *= number.toFloat()
+                            if (lastOperator == '/') multiply /= number.toFloat()
+                            if (count == current.length - 1) result += multiply
                         }
-                    } else if (lastOperator == '*' || lastOperator == '/') {
-                        if (lastOperator == '*') multiply *= number.toFloat()
-                        if (lastOperator == '/') multiply /= number.toFloat()
-                        if (count == current.length - 1) result += multiply
+                        lastOperator = i
+                        number = ""
                     }
-                    lastOperator = i
-                    number = ""
                 }
                 count++
             }
@@ -124,5 +127,6 @@ internal fun Char.isNotMathOperator() = this != '-' && this != '+' && this != '*
 internal sealed class CalculatorWorkCommand : WorkCommand {
     data class Calculate(val current: String) : CalculatorWorkCommand()
     data class CalculateResult(val result: String) : CalculatorWorkCommand()
-    data class ChangeMathOperator(val current: String, val operator: String) : CalculatorWorkCommand()
+    data class ChangeMathOperator(val current: String, val operator: String) :
+        CalculatorWorkCommand()
 }

@@ -9,7 +9,7 @@ object Config {
     const val minSdkVersion = 24
 
     const val versionCode = 1
-    const val versionName = "1.0"
+    const val versionName = "0.1.2"
 
     const val testInstrumentRunner = "androidx.test.runner.AndroidJUnitRunner"
     const val consumerProguardFiles = "consumer-rules.pro"

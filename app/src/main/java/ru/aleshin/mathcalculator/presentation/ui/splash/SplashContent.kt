@@ -24,10 +24,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 // import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
-import ru.aleshin.core.ui.theme.MathCalculatorTheme
 import ru.aleshin.mathcalculator.presentation.theme.MainThemeRes
 
 /**
@@ -67,10 +65,10 @@ fun SplashContent(
     }
 }
 
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun SplashContent_Preview() {
-    MathCalculatorTheme {
-        SplashContent(onSplashExit = {})
-    }
-}
+// @Composable
+// @Preview(showBackground = true, showSystemUi = true)
+// fun SplashContent_Preview() {
+//    MathCalculatorTheme {
+//        SplashContent(onSplashExit = {})
+//    }
+// }

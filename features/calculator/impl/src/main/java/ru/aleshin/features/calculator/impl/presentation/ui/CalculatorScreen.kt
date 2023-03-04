@@ -46,11 +46,11 @@ internal class CalculatorScreen @Inject constructor() : Screen {
                     CalculatorContent(
                         modifier = Modifier.padding(it),
                         state = state,
-                        onNumberSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedNumber(it, state.currentValue)) },
-                        onOperatorSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedMathOperator(it, state.currentValue)) },
-                        onResultButtonClick = { screenModel.dispatchEvent(CalculatorEvent.PressResultButton(state.result)) },
+                        onNumberSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedNumber(it)) },
+                        onOperatorSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedMathOperator(it)) },
+                        onResultButtonClick = { screenModel.dispatchEvent(CalculatorEvent.PressResultButton) },
                         onClearAllButtonClick = { screenModel.dispatchEvent(CalculatorEvent.ClearField) },
-                        onClearLastButtonClick = { screenModel.dispatchEvent(CalculatorEvent.ClearLastNumber(state.currentValue)) },
+                        onClearLastButtonClick = { screenModel.dispatchEvent(CalculatorEvent.ClearLastNumber) },
                     )
                 },
                 topBar = {

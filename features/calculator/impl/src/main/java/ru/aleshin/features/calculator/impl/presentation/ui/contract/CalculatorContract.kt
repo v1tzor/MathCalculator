@@ -31,12 +31,11 @@ internal data class CalculatorViewState(
 ) : BaseViewState
 
 internal sealed class CalculatorEvent : BaseEvent {
-    data class SelectedNumber(val number: String, val current: String) : CalculatorEvent()
-    data class SelectedMathOperator(val operator: String, val current: String) : CalculatorEvent()
-    data class PressResultButton(val result: String) : CalculatorEvent()
-    data class ClearLastNumber(val current: String) : CalculatorEvent()
+    data class SelectedNumber(val number: String) : CalculatorEvent()
+    data class SelectedMathOperator(val operator: String) : CalculatorEvent()
+    object PressResultButton : CalculatorEvent()
+    object ClearLastNumber : CalculatorEvent()
     object ClearField : CalculatorEvent()
-
     object PressSettingsButton : CalculatorEvent()
 }
 
@@ -47,4 +46,5 @@ internal sealed class CalculatorEffect : BaseEffect {
 internal sealed class CalculatorAction : CalculatorEffect(), BaseAction {
     data class ChangeCurrentValue(val value: String) : CalculatorAction()
     data class ChangeResult(val result: String) : CalculatorAction()
+    data class ChangeData(val value: String, val result: String) : CalculatorAction()
 }

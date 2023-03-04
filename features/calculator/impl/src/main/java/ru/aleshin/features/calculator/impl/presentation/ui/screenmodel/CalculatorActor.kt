@@ -16,7 +16,6 @@
 package ru.aleshin.features.calculator.impl.presentation.ui.screenmodel
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import ru.aleshin.core.utils.platform.screenmodel.common.Actor
@@ -36,31 +35,13 @@ internal interface CalculatorActor : Actor<CalculatorEvent, CalculatorEffect> {
 
         override fun handleEvent(event: CalculatorEvent): Flow<CalculatorEffect> = when (event) {
             is CalculatorEvent.PressSettingsButton -> flowOf(CalculatorEffect.ShowSettingsFeature)
+            is CalculatorEvent.ClearLastNumber -> calculateProcessor.work(CalculatorWorkCommand.ClearLastNumber)
+            is CalculatorEvent.SelectedNumber -> calculateProcessor.work(CalculatorWorkCommand.SelectedNumber(event.number))
+            is CalculatorEvent.SelectedMathOperator -> calculateProcessor.work(CalculatorWorkCommand.ChangeMathOperator(event.operator))
+            is CalculatorEvent.PressResultButton -> calculateProcessor.work(CalculatorWorkCommand.CalculateResult)
             is CalculatorEvent.ClearField -> flow {
                 emit(CalculatorAction.ChangeResult(""))
                 emit(CalculatorAction.ChangeCurrentValue(""))
-            }
-            is CalculatorEvent.ClearLastNumber -> flow {
-                val current = event.current
-                val newValue = if (current.isNotEmpty()) current.substring(0, current.length - 1) else ""
-                if (newValue.isEmpty()) {
-                    emit(CalculatorAction.ChangeResult(""))
-                    emit(CalculatorAction.ChangeCurrentValue(""))
-                } else {
-                    emit(CalculatorAction.ChangeCurrentValue(newValue))
-                    emitAll(calculateProcessor.calculate(newValue))
-                }
-            }
-            is CalculatorEvent.SelectedNumber -> flow {
-                val newValue = event.current + event.number
-                emit(CalculatorAction.ChangeCurrentValue(newValue))
-                emitAll(calculateProcessor.calculate(newValue))
-            }
-            is CalculatorEvent.SelectedMathOperator -> {
-                calculateProcessor.changeMathOperator(event.current, event.operator)
-            }
-            is CalculatorEvent.PressResultButton -> {
-                calculateProcessor.calculateResult(event.result)
             }
         }
     }

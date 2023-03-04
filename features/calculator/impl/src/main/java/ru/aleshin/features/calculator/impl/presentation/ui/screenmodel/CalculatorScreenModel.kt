@@ -55,6 +55,7 @@ internal class CalculatorScreenModel @Inject constructor(
         action: CalculatorAction,
         currentState: CalculatorViewState,
     ) = when (action) {
+        is CalculatorAction.ChangeData -> currentState.copy(currentValue = action.value, result = action.result)
         is CalculatorAction.ChangeCurrentValue -> currentState.copy(currentValue = action.value)
         is CalculatorAction.ChangeResult -> currentState.copy(result = action.result)
     }

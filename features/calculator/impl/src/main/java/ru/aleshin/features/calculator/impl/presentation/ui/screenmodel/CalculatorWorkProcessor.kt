@@ -15,10 +15,10 @@
 */
 package ru.aleshin.features.calculator.impl.presentation.ui.screenmodel
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import ru.aleshin.core.utils.extensions.isNotMathOperator
+import ru.aleshin.core.utils.managers.MathManager
 import ru.aleshin.core.utils.platform.screenmodel.common.WorkCommand
 import ru.aleshin.core.utils.platform.screenmodel.common.WorkProcessor
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorAction
@@ -30,103 +30,82 @@ import javax.inject.Inject
  */
 internal interface CalculatorWorkProcessor : WorkProcessor<CalculatorWorkCommand, CalculatorEffect> {
 
-    fun calculate(current: String): Flow<CalculatorEffect>
-    fun calculateResult(current: String): Flow<CalculatorEffect>
-    fun changeMathOperator(current: String, operator: String): Flow<CalculatorEffect>
-
-    class Base @Inject constructor() : CalculatorWorkProcessor {
-        override fun calculate(current: String) = work(
-            command = CalculatorWorkCommand.Calculate(current),
-        )
-
-        override fun calculateResult(current: String) = work(
-            command = CalculatorWorkCommand.CalculateResult(current),
-        )
-
-        override fun changeMathOperator(current: String, operator: String) = work(
-            command = CalculatorWorkCommand.ChangeMathOperator(current, operator),
-        )
-
+    class Base @Inject constructor(
+        private val stateCommunicator: CalculatorStateCommunicator,
+        private val mathManger: MathManager,
+    ) : CalculatorWorkProcessor {
         override fun work(command: CalculatorWorkCommand) = when (command) {
-            is CalculatorWorkCommand.Calculate -> {
-                calculateWork(command.current).catch { emit(CalculatorAction.ChangeResult("-1")) }
+            is CalculatorWorkCommand.Calculate -> calculateWork().catch {
+                emit(CalculatorAction.ChangeResult("-1"))
             }
-            is CalculatorWorkCommand.CalculateResult -> flow {
-                emit(CalculatorAction.ChangeCurrentValue(command.result))
-                emit(CalculatorAction.ChangeResult(""))
-            }
-            is CalculatorWorkCommand.ChangeMathOperator -> flow {
-                val current = command.current
-                val operator = command.operator
-                if (current.isNotEmpty()) {
-                    if (current.last().isNotMathOperator()) {
-                        if (operator == ".") {
-                            val lastOperator =
-                                current.indexOfLast { it == '-' || it == '+' || it == '*' || it == '/' }
-                            val lastDot = current.indexOfLast { it == '.' }
-                            if (lastDot > lastOperator) return@flow
-                        }
-                        val newValue = current + operator
-                        emit(CalculatorAction.ChangeCurrentValue(newValue))
-                        emitAll(calculateWork(newValue))
-                    } else {
-                        if (current.last().toString() != operator && current.length != 1) {
-                            val newValue = current.substring(0, current.length - 1) + operator
-                            emit(CalculatorAction.ChangeCurrentValue(newValue))
-                        }
-                    }
-                } else if (operator == "-") {
-                    emit(CalculatorAction.ChangeCurrentValue(operator))
+            is CalculatorWorkCommand.CalculateResult -> calculateResultWork()
+            is CalculatorWorkCommand.ChangeMathOperator -> changeMathOperatorWork(command.operator)
+            is CalculatorWorkCommand.SelectedNumber -> selectedNumberWork(command.number)
+            is CalculatorWorkCommand.ClearLastNumber -> clearLastNumberWork()
+        }
+
+        private fun clearLastNumberWork() = flow<CalculatorEffect> {
+            val current = stateCommunicator.read().currentValue
+            val newValue = if (current.isNotEmpty()) current.substring(0, current.length - 1) else ""
+            if (newValue.isEmpty()) {
+                emit(CalculatorAction.ChangeData("", ""))
+            } else {
+                emit(CalculatorAction.ChangeCurrentValue(newValue))
+                if (newValue.last().isNotMathOperator()) {
+                    val newResult = mathManger.calculateValue(newValue).toString()
+                    emit(CalculatorAction.ChangeData(newValue, newResult))
+                } else {
+                    emit(CalculatorAction.ChangeCurrentValue(newValue))
                 }
             }
         }
 
-        private fun calculateWork(current: String) = flow<CalculatorEffect> {
+        private fun calculateResultWork() = flow {
+            val current = stateCommunicator.read().currentValue
+            val newValue = mathManger.calculateValue(current).toString()
+            emit(CalculatorAction.ChangeData(newValue, ""))
+        }
+
+        private fun changeMathOperatorWork(operator: String) = flow {
+            val current = stateCommunicator.read().currentValue
+            if (current.isNotEmpty()) {
+                if (current.last().isNotMathOperator()) {
+                    if (operator == ".") {
+                        val lastOperator = current.indexOfLast { it == '-' || it == '+' || it == '*' || it == '/' }
+                        val lastDot = current.indexOfLast { it == '.' }
+                        if (lastDot > lastOperator) return@flow
+                    }
+                    emit(CalculatorAction.ChangeCurrentValue(current + operator))
+                } else {
+                    if (current.last().toString() != operator && current.length != 1) {
+                        emit(CalculatorAction.ChangeCurrentValue(current.substring(0, current.length - 1) + operator))
+                    }
+                }
+            } else if (operator == "-") {
+                emit(CalculatorAction.ChangeCurrentValue(operator))
+            }
+        }
+
+        private fun selectedNumberWork(number: String) = flow {
+            val current = stateCommunicator.read().currentValue
+            val newValue = current + number
+            val newResult = mathManger.calculateValue(newValue).toString()
+            emit(CalculatorAction.ChangeData(newValue, newResult))
+        }
+
+        private fun calculateWork() = flow<CalculatorEffect> {
+            val current = stateCommunicator.read().currentValue
             if (current.isNotEmpty() && current.last().isNotMathOperator()) {
-                emit(CalculatorAction.ChangeResult(calculateValue(current).toString()))
+                emit(CalculatorAction.ChangeResult(mathManger.calculateValue(current).toString()))
             }
-        }
-
-        private fun calculateValue(current: String): Float {
-            var result = 0f
-            var multiply = 1f
-            var lastOperator = '+'
-            var number = ""
-            var count = 0
-
-            for (i in current.iterator()) {
-                if (i.isNotMathOperator() || (count == 0 && i == '-')) number += i
-                if (count == 0 && i != '-' || count != 0) {
-                    if (!i.isNotMathOperator() || count == current.length - 1) {
-                        if (lastOperator == '+' || lastOperator == '-') {
-                            if (lastOperator == '-') if (i != '*' && i != '/') result -= number.toFloat()
-                            if (lastOperator == '+') if (i != '*' && i != '/') result += number.toFloat()
-                            if (i == '*' || i == '/') {
-                                multiply = if (lastOperator == '-') -number.toFloat() else number.toFloat()
-                            } else {
-                                if (multiply != 1f) result += multiply
-                                multiply = 1f
-                            }
-                        } else if (lastOperator == '*' || lastOperator == '/') {
-                            if (lastOperator == '*') multiply *= number.toFloat()
-                            if (lastOperator == '/') multiply /= number.toFloat()
-                            if (count == current.length - 1) result += multiply
-                        }
-                        lastOperator = i
-                        number = ""
-                    }
-                }
-                count++
-            }
-            return result
         }
     }
 }
 
-internal fun Char.isNotMathOperator() = this != '-' && this != '+' && this != '*' && this != '/'
 internal sealed class CalculatorWorkCommand : WorkCommand {
-    data class Calculate(val current: String) : CalculatorWorkCommand()
-    data class CalculateResult(val result: String) : CalculatorWorkCommand()
-    data class ChangeMathOperator(val current: String, val operator: String) :
-        CalculatorWorkCommand()
+    object Calculate : CalculatorWorkCommand()
+    object ClearLastNumber : CalculatorWorkCommand()
+    object CalculateResult : CalculatorWorkCommand()
+    data class SelectedNumber(val number: String) : CalculatorWorkCommand()
+    data class ChangeMathOperator(val operator: String) : CalculatorWorkCommand()
 }

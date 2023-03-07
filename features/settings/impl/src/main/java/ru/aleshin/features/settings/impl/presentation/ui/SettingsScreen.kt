@@ -15,7 +15,6 @@
 */
 package ru.aleshin.features.settings.impl.presentation.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,21 +44,16 @@ internal class SettingsScreen @Inject constructor() : Screen {
         SettingsTheme {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
-                content = {
-                    Box(modifier = Modifier.padding(it)) {
-                        SettingsContent(
-                            state = state,
-                            onUpdateThemeSettings = {
-                                screenModel.dispatchEvent(SettingsEvent.ChangedThemeSettings(it))
-                            },
-                        )
-                    }
+                content = { paddingValues ->
+                    SettingsContent(
+                        modifier = Modifier.padding(paddingValues),
+                        state = state,
+                        onUpdateThemeSettings = { screenModel.dispatchEvent(SettingsEvent.ChangedThemeSettings(it)) },
+                    )
                 },
                 topBar = {
                     SettingsTopAppBar(
-                        onBackButtonClick = {
-                            screenModel.dispatchEvent(SettingsEvent.PressBackButton)
-                        },
+                        onBackButtonClick = { screenModel.dispatchEvent(SettingsEvent.PressBackButton) },
                     )
                 },
             )

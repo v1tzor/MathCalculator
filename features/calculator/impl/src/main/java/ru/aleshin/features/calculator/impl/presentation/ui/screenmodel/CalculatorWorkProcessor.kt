@@ -35,9 +35,7 @@ internal interface CalculatorWorkProcessor : WorkProcessor<CalculatorWorkCommand
         private val mathManger: MathManager,
     ) : CalculatorWorkProcessor {
         override fun work(command: CalculatorWorkCommand) = when (command) {
-            is CalculatorWorkCommand.Calculate -> calculateWork().catch {
-                emit(CalculatorAction.ChangeResult("-1"))
-            }
+            is CalculatorWorkCommand.Calculate -> calculateWork().catch { emit(CalculatorAction.ChangeResult("-1")) }
             is CalculatorWorkCommand.CalculateResult -> calculateResultWork()
             is CalculatorWorkCommand.ChangeMathOperator -> changeMathOperatorWork(command.operator)
             is CalculatorWorkCommand.SelectedNumber -> selectedNumberWork(command.number)
@@ -50,7 +48,6 @@ internal interface CalculatorWorkProcessor : WorkProcessor<CalculatorWorkCommand
             if (newValue.isEmpty()) {
                 emit(CalculatorAction.ChangeData("", ""))
             } else {
-                emit(CalculatorAction.ChangeCurrentValue(newValue))
                 if (newValue.last().isNotMathOperator()) {
                     val newResult = mathManger.calculateValue(newValue).toString()
                     emit(CalculatorAction.ChangeData(newValue, newResult))

@@ -15,7 +15,6 @@
 */
 package ru.aleshin.core.ui.views
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -23,12 +22,8 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -50,19 +45,11 @@ fun <Item : SegmentedButtonItem> SegmentedButtons(
     selectedItem: Item,
     onItemClick: (Item) -> Unit,
 ) {
-    val buttonWidth = remember { mutableStateOf(SegmentedButtonDefaults.defualtWidth) }
-    val density = LocalDensity.current
-    Row(
-        modifier = modifier
-            .onGloballyPositioned {
-                buttonWidth.value = density.run { (it.size.width / items.size).toDp() }
-            }
-            .animateContentSize(),
-    ) {
+    Row(modifier = modifier.fillMaxWidth()) {
         items.forEachIndexed { index, item ->
             if (index == 0) {
                 SegmentedButton(
-                    modifier = Modifier.width(buttonWidth.value),
+                    modifier = Modifier.weight(1f),
                     title = item.title,
                     isSelected = item == selectedItem,
                     shape = SegmentedButtonDefaults.firstButtonShape(),
@@ -70,7 +57,7 @@ fun <Item : SegmentedButtonItem> SegmentedButtons(
                 )
             } else if (items.lastIndex == index) {
                 SegmentedButton(
-                    modifier = Modifier.width(buttonWidth.value),
+                    modifier = Modifier.weight(1f),
                     title = item.title,
                     isSelected = item == selectedItem,
                     shape = SegmentedButtonDefaults.lastButtonShape(),
@@ -78,7 +65,7 @@ fun <Item : SegmentedButtonItem> SegmentedButtons(
                 )
             } else {
                 SegmentedButton(
-                    modifier = Modifier.width(buttonWidth.value),
+                    modifier = Modifier.weight(1f),
                     title = item.title,
                     isSelected = item == selectedItem,
                     shape = SegmentedButtonDefaults.centerButtonShape(),
@@ -136,8 +123,6 @@ fun SegmentedButtonCornerShape(
 object SegmentedButtonDefaults {
 
     val height = 40.dp
-
-    val defualtWidth = 100.dp
 
     val selectedIconSize = 16.dp
 

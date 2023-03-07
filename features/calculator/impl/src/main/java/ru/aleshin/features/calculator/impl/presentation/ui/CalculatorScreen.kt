@@ -42,9 +42,9 @@ internal class CalculatorScreen @Inject constructor() : Screen {
 
         CalculatorTheme {
             Scaffold(
-                content = {
+                content = { paddingValues ->
                     CalculatorContent(
-                        modifier = Modifier.padding(it),
+                        modifier = Modifier.padding(paddingValues),
                         state = state,
                         onNumberSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedNumber(it)) },
                         onOperatorSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedMathOperator(it)) },

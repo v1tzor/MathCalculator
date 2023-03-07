@@ -15,7 +15,6 @@
 */
 package ru.aleshin.features.calculator.impl.presentation.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -26,12 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.aleshin.core.ui.theme.MathCalculatorTheme
-import ru.aleshin.core.ui.theme.material.ThemeColorsUiType
-import ru.aleshin.core.ui.theme.tokens.LanguageUiType
-import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorTheme
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorViewState
 import ru.aleshin.features.calculator.impl.presentation.ui.views.*
 import ru.aleshin.features.calculator.impl.presentation.ui.views.CalculateFirstLine
@@ -64,17 +58,11 @@ internal fun CalculatorContent(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                CalculateFirstLine(
-                    onOperatorClick = onOperatorSelected,
-                    onClearAllClick = onClearAllButtonClick,
-                )
+                CalculateFirstLine(onOperatorClick = onOperatorSelected, onClearAllClick = onClearAllButtonClick)
                 CalculateSecondLine(onNumberClick = onNumberSelected)
                 CalculateThirtyLine(onNumberClick = onNumberSelected)
                 CalculateFourthLine(onNumberClick = onNumberSelected)
-                CalculateFifthLine(
-                    onNumberClick = onNumberSelected,
-                    onOperatorClick = onOperatorSelected,
-                )
+                CalculateFifthLine(onNumberClick = onNumberSelected, onOperatorClick = onOperatorSelected)
             }
             CalculateVerticalColumn(
                 modifier = Modifier.width(100.dp),
@@ -96,15 +84,6 @@ internal fun CalculatorTitle(calculateLine: String, result: String) {
                 .horizontalScroll(state = scrollState, reverseScrolling = true),
             horizontalArrangement = Arrangement.End,
         ) {
-//            if (calculateLine == null) {
-//                Text(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    textAlign = TextAlign.Right,
-//                    text = "0",
-//                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                    style = MaterialTheme.typography.displayMedium,
-//                )
-//            } else {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Right,
@@ -113,7 +92,6 @@ internal fun CalculatorTitle(calculateLine: String, result: String) {
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.displayMedium,
             )
-//            }
         }
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -127,48 +105,48 @@ internal fun CalculatorTitle(calculateLine: String, result: String) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-internal fun SettingsTopAppBar_Light_Preview() {
-    MathCalculatorTheme(
-        dynamicColor = false,
-        themeColorsType = ThemeColorsUiType.LIGHT,
-        language = LanguageUiType.RU,
-    ) {
-        CalculatorTheme {
-            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                CalculatorContent(
-                    state = CalculatorViewState(),
-                    onNumberSelected = {},
-                    onOperatorSelected = {},
-                    onResultButtonClick = {},
-                    onClearLastButtonClick = {},
-                    onClearAllButtonClick = {},
-                )
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-internal fun SettingsTopAppBar_Dark_Preview() {
-    MathCalculatorTheme(
-        dynamicColor = false,
-        themeColorsType = ThemeColorsUiType.DARK,
-        language = LanguageUiType.RU,
-    ) {
-        CalculatorTheme {
-            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                CalculatorContent(
-                    state = CalculatorViewState(),
-                    onNumberSelected = {},
-                    onOperatorSelected = {},
-                    onResultButtonClick = {},
-                    onClearLastButtonClick = {},
-                    onClearAllButtonClick = {},
-                )
-            }
-        }
-    }
-}
+// @Preview(showBackground = true, showSystemUi = true)
+// @Composable
+// internal fun SettingsTopAppBar_Light_Preview() {
+//    MathCalculatorTheme(
+//        dynamicColor = false,
+//        themeColorsType = ThemeColorsUiType.LIGHT,
+//        language = LanguageUiType.RU,
+//    ) {
+//        CalculatorTheme {
+//            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+//                CalculatorContent(
+//                    state = CalculatorViewState(),
+//                    onNumberSelected = {},
+//                    onOperatorSelected = {},
+//                    onResultButtonClick = {},
+//                    onClearLastButtonClick = {},
+//                    onClearAllButtonClick = {},
+//                )
+//            }
+//        }
+//    }
+// }
+//
+// @Preview(showBackground = true, showSystemUi = true)
+// @Composable
+// internal fun SettingsTopAppBar_Dark_Preview() {
+//    MathCalculatorTheme(
+//        dynamicColor = false,
+//        themeColorsType = ThemeColorsUiType.DARK,
+//        language = LanguageUiType.RU,
+//    ) {
+//        CalculatorTheme {
+//            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+//                CalculatorContent(
+//                    state = CalculatorViewState(),
+//                    onNumberSelected = {},
+//                    onOperatorSelected = {},
+//                    onResultButtonClick = {},
+//                    onClearLastButtonClick = {},
+//                    onClearAllButtonClick = {},
+//                )
+//            }
+//        }
+//    }
+// }

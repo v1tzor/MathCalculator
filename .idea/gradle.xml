@@ -20,6 +20,9 @@
             <option value="$PROJECT_DIR$/features/calculator" />
             <option value="$PROJECT_DIR$/features/calculator/api" />
             <option value="$PROJECT_DIR$/features/calculator/impl" />
+            <option value="$PROJECT_DIR$/features/history" />
+            <option value="$PROJECT_DIR$/features/history/api" />
+            <option value="$PROJECT_DIR$/features/history/impl" />
             <option value="$PROJECT_DIR$/features/settings" />
             <option value="$PROJECT_DIR$/features/settings/api" />
             <option value="$PROJECT_DIR$/features/settings/impl" />

@@ -25,14 +25,14 @@ import javax.inject.Provider
  */
 interface GlobalNavigationManager {
 
-    fun navigateToCalculatorFeature()
+    suspend fun navigateToCalculatorFeature()
 
     class Base @Inject constructor(
         private val router: Router,
         private val calculatorFeatureStarter: Provider<CalculatorFeatureStarter>,
     ) : GlobalNavigationManager {
 
-        override fun navigateToCalculatorFeature() {
+        override suspend fun navigateToCalculatorFeature() {
             val screen = calculatorFeatureStarter.get().provideMainScreen()
             router.replaceTo(screen)
         }

@@ -24,10 +24,12 @@ import ru.aleshin.features.calculator.api.CalculatorFeatureStarter
 import ru.aleshin.features.calculator.impl.navigations.CalculatorFeatureStarterImpl
 import ru.aleshin.features.calculator.impl.navigations.NavigationManager
 import ru.aleshin.features.calculator.impl.presentation.ui.CalculatorScreen
-import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorActor
+import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.*
+import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorEffectCommunicator
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorScreenModel
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorStateCommunicator
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorWorkProcessor
+import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.HistoryWorkProcessor
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
@@ -55,9 +57,14 @@ internal interface PresentationModule {
     fun bindCalculatorStateCommunicator(communicator: CalculatorStateCommunicator.Base): CalculatorStateCommunicator
 
     @Binds
-    fun bindCalculatorActor(actor: CalculatorActor.Base): CalculatorActor
+    @FeatureScope
+    fun bindCalculatorEffectCommunicator(communicator: CalculatorEffectCommunicator.Base): CalculatorEffectCommunicator
 
     @Binds
     @FeatureScope
     fun bindCalculatorWorkProcessor(processor: CalculatorWorkProcessor.Base): CalculatorWorkProcessor
+
+    @Binds
+    @FeatureScope
+    fun bindHistoryWorkProcessor(processor: HistoryWorkProcessor.Base): HistoryWorkProcessor
 }

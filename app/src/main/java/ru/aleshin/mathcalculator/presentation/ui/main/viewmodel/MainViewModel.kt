@@ -16,7 +16,9 @@
 package ru.aleshin.mathcalculator.presentation.ui.main.viewmodel
 
 import ru.aleshin.core.utils.managers.CoroutineManager
+import ru.aleshin.core.utils.platform.communications.state.EffectCommunicator
 import ru.aleshin.core.utils.platform.screenmodel.BaseViewModel
+import ru.aleshin.core.utils.platform.screenmodel.work.WorkScope
 import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainAction
 import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainEffect
 import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainEvent
@@ -28,12 +30,12 @@ import javax.inject.Provider
  * @author Stanislav Aleshin on 01.03.2023.
  */
 class MainViewModel @Inject constructor(
+    private val settingsWorkProcessor: SettingsWorkProcessor,
     communicator: MainStateCommunicator,
-    actor: MainActor,
     coroutineManager: CoroutineManager,
 ) : BaseViewModel<MainViewState, MainEvent, MainAction, MainEffect>(
     stateCommunicator = communicator,
-    actor = actor,
+    effectCommunicator = EffectCommunicator.Empty(),
     coroutineManager = coroutineManager,
 ) {
 
@@ -41,16 +43,15 @@ class MainViewModel @Inject constructor(
         dispatchEvent(MainEvent.Init)
     }
 
-    override fun handleEffect(effect: MainEffect) = when (effect) {
-        is MainAction -> runOnBackground {
-            val currentState = stateCommunicator.read()
-            val newState = reduce(effect, currentState)
-
-            stateCommunicator.update(newState)
+    override suspend fun WorkScope<MainViewState, MainAction, MainEffect>.handleEvent(event: MainEvent) {
+        when (event) {
+            is MainEvent.Init -> launchBackgroundWork(SettingsWorkCommand.LoadThemeSettings) {
+                settingsWorkProcessor.loadThemeSettings().collectAndHandleWork()
+            }
         }
     }
 
-    override fun reduce(action: MainAction, currentState: MainViewState) = when (action) {
+    override suspend fun reduce(action: MainAction, currentState: MainViewState) = when (action) {
         is MainAction.ChangeThemeSettings -> currentState.copy(
             language = action.language,
             colors = action.themeColors,

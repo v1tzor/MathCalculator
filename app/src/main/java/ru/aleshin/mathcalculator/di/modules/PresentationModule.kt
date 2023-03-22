@@ -22,13 +22,12 @@ import dagger.Binds
 import dagger.Module
 import ru.aleshin.core.utils.di.ScreenModelKey
 import ru.aleshin.core.utils.managers.CoroutineManager
+import ru.aleshin.core.utils.managers.DateManager
 import ru.aleshin.core.utils.managers.MathManager
 import ru.aleshin.mathcalculator.navigation.GlobalNavigationManager
-import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainActor
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainStateCommunicator
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainViewModel
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.SettingsWorkProcessor
-import ru.aleshin.mathcalculator.presentation.ui.splash.screenmodel.SplashActor
 import ru.aleshin.mathcalculator.presentation.ui.splash.screenmodel.SplashScreenModel
 import ru.aleshin.mathcalculator.presentation.ui.splash.screenmodel.SplashStateCommunicator
 import javax.inject.Singleton
@@ -51,6 +50,10 @@ interface PresentationModule {
 
     @Binds
     @Singleton
+    fun bindDateManager(manager: DateManager.Base): DateManager
+
+    @Binds
+    @Singleton
     fun bindMathManager(manager: MathManager.Base): MathManager
 
     // Main ViewModel
@@ -66,9 +69,6 @@ interface PresentationModule {
     fun bindMainStateCommunicator(communicator: MainStateCommunicator.Base): MainStateCommunicator
 
     @Binds
-    fun bindMainActor(actor: MainActor.Base): MainActor
-
-    @Binds
     fun bindSettingsWorkProcessor(processor: SettingsWorkProcessor.Base): SettingsWorkProcessor
 
     // Splash ScreenModel
@@ -80,7 +80,4 @@ interface PresentationModule {
     @Binds
     @Singleton
     fun bindSplashStateCommunicator(communicator: SplashStateCommunicator.Base): SplashStateCommunicator
-
-    @Binds
-    fun bindSplashActor(actor: SplashActor.Base): SplashActor
 }

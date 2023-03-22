@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -124,9 +125,18 @@ fun <T : TopAppBarAction> TopAppBarMoreActions(
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
+                    leadingIcon = if (item.icon != null) { {
+                        Icon(
+                            painter = painterResource(checkNotNull(item.icon)),
+                            contentDescription = item.title,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    } } else {
+                        null
+                    },
                     text = {
                         Text(
-                            modifier = Modifier.defaultMinSize(minWidth = 200.dp),
+                            modifier = Modifier.defaultMinSize(minWidth = 150.dp),
                             text = item.title,
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyLarge,

@@ -24,7 +24,6 @@ import ru.aleshin.features.settings.api.SettingsFeatureStarter
 import ru.aleshin.features.settings.impl.navigations.NavigationManager
 import ru.aleshin.features.settings.impl.navigations.SettingsFeatureStarterImpl
 import ru.aleshin.features.settings.impl.presentation.ui.SettingsScreen
-import ru.aleshin.features.settings.impl.presentation.ui.screensmodel.SettingsActor
 import ru.aleshin.features.settings.impl.presentation.ui.screensmodel.SettingsScreenModel
 import ru.aleshin.features.settings.impl.presentation.ui.screensmodel.SettingsStateCommunicator
 import ru.aleshin.features.settings.impl.presentation.ui.screensmodel.SettingsWorkProcessor
@@ -53,9 +52,6 @@ internal interface PresentationModule {
     @Binds
     @FeatureScope
     fun bindSettingsStateCommunicator(communicator: SettingsStateCommunicator.Base): SettingsStateCommunicator
-
-    @Binds
-    fun bindSettingsActor(actor: SettingsActor.Base): SettingsActor
 
     @Binds
     fun bindSettingsWorkProcessor(processor: SettingsWorkProcessor.Base): SettingsWorkProcessor

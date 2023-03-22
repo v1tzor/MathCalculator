@@ -16,6 +16,6 @@
 package ru.aleshin.core.utils.platform.screenmodel.contract
 
 /**
- * @author Stanislav Aleshin on 01.03.2023.
+ * @author Stanislav Aleshin on 21.03.2023.
  */
 interface BaseAction : BaseEffect

@@ -15,14 +15,12 @@
 */
 package ru.aleshin.mathcalculator.presentation.ui.splash
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
+import ru.aleshin.core.utils.platform.screen.ScreenContent
 import ru.aleshin.mathcalculator.presentation.theme.MainTheme
 import ru.aleshin.mathcalculator.presentation.ui.splash.contract.SplashEvent
+import ru.aleshin.mathcalculator.presentation.ui.splash.contract.SplashViewState
 import ru.aleshin.mathcalculator.presentation.ui.splash.screenmodel.rememberSplashScreenModel
 
 /**
@@ -31,12 +29,11 @@ import ru.aleshin.mathcalculator.presentation.ui.splash.screenmodel.rememberSpla
 class SplashScreen : Screen {
 
     @Composable
-    override fun Content() {
-        val screenModel = rememberSplashScreenModel()
+    override fun Content() = ScreenContent(rememberSplashScreenModel(), SplashViewState.Defualt) {
         MainTheme {
-            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                SplashContent(onSplashExit = { screenModel.dispatchEvent(SplashEvent.AfterSplash) })
-            }
+            SplashContent(
+                onSplashExit = { dispatchEvent(SplashEvent.AfterSplash) },
+            )
         }
     }
 }

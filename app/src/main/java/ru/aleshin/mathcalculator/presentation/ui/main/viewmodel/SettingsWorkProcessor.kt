@@ -15,11 +15,12 @@
 */
 package ru.aleshin.mathcalculator.presentation.ui.main.viewmodel
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.aleshin.core.utils.functional.Either
-import ru.aleshin.core.utils.platform.screenmodel.common.WorkCommand
-import ru.aleshin.core.utils.platform.screenmodel.common.WorkProcessor
+import ru.aleshin.core.utils.platform.screenmodel.work.ActionResult
+import ru.aleshin.core.utils.platform.screenmodel.work.FlowWorkProcessor
+import ru.aleshin.core.utils.platform.screenmodel.work.FlowWorkResult
+import ru.aleshin.core.utils.platform.screenmodel.work.WorkCommand
 import ru.aleshin.mathcalculator.domain.interactors.SettingsInteractor
 import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainAction
 import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainEffect
@@ -29,29 +30,30 @@ import javax.inject.Inject
 /**
  * @author Stanislav Aleshin on 01.03.2023.
  */
-interface SettingsWorkProcessor : WorkProcessor<SettingsWorkCommand, MainEffect> {
+interface SettingsWorkProcessor : FlowWorkProcessor<SettingsWorkCommand, MainAction, MainEffect> {
 
-    fun loadThemeSettings(): Flow<MainEffect>
+    suspend fun loadThemeSettings(): FlowWorkResult<MainAction, MainEffect>
 
     class Base @Inject constructor(
         private val settingsInteractor: SettingsInteractor,
     ) : SettingsWorkProcessor {
 
-        override fun loadThemeSettings() = work(SettingsWorkCommand.LoadThemeSettings)
+        override suspend fun loadThemeSettings() = work(SettingsWorkCommand.LoadThemeSettings)
 
-        override fun work(command: SettingsWorkCommand) = when (command) {
+        override suspend fun work(command: SettingsWorkCommand) = when (command) {
             SettingsWorkCommand.LoadThemeSettings -> loadThemeSettingsWork()
         }
 
-        private fun loadThemeSettingsWork() = flow<MainEffect> {
+        private fun loadThemeSettingsWork() = flow {
             settingsInteractor.fetchThemeSettings().collect { settings ->
                 when (settings) {
-                    is Either.Right -> emit(
-                        MainAction.ChangeThemeSettings(
+                    is Either.Right -> {
+                        val action = MainAction.ChangeThemeSettings(
                             language = settings.data.language.mapToUi(),
                             themeColors = settings.data.themeColors.mapToUi(),
-                        ),
-                    )
+                        )
+                        emit(ActionResult(action))
+                    }
                     is Either.Left -> error(
                         RuntimeException("Error get Theme Settings"),
                     )

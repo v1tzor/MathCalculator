@@ -23,10 +23,12 @@ import ru.aleshin.features.calculator.impl.R
  */
 internal data class CalculatorIcons(
     val settings: Int,
+    val history: Int,
 )
 
 internal val baseCalculatorIcons = CalculatorIcons(
     settings = R.drawable.ic_settings,
+    history = R.drawable.ic_history,
 )
 
 internal val LocalCalculatorIcons = staticCompositionLocalOf<CalculatorIcons> {

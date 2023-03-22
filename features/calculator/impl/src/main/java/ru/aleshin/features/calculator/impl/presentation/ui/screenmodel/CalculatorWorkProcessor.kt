@@ -15,94 +15,124 @@
 */
 package ru.aleshin.features.calculator.impl.presentation.ui.screenmodel
 
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import ru.aleshin.core.utils.extensions.isNotMathOperator
+import ru.aleshin.core.utils.functional.Either
+import ru.aleshin.core.utils.managers.DateManager
 import ru.aleshin.core.utils.managers.MathManager
-import ru.aleshin.core.utils.platform.screenmodel.common.WorkCommand
-import ru.aleshin.core.utils.platform.screenmodel.common.WorkProcessor
+import ru.aleshin.core.utils.platform.screenmodel.work.*
+import ru.aleshin.features.calculator.impl.domain.interactors.HistoryInteractor
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorAction
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorEffect
+import ru.aleshin.features.history.api.domain.CalculateHistory
 import javax.inject.Inject
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
  */
-internal interface CalculatorWorkProcessor : WorkProcessor<CalculatorWorkCommand, CalculatorEffect> {
+internal interface CalculatorWorkProcessor :
+    WorkProcessor<CalculatorWorkCommand, CalculatorAction, CalculatorEffect> {
 
     class Base @Inject constructor(
-        private val stateCommunicator: CalculatorStateCommunicator,
+        private val interactor: HistoryInteractor,
+        private val dateManager: DateManager,
         private val mathManger: MathManager,
     ) : CalculatorWorkProcessor {
-        override fun work(command: CalculatorWorkCommand) = when (command) {
-            is CalculatorWorkCommand.Calculate -> calculateWork().catch { emit(CalculatorAction.ChangeResult("-1")) }
-            is CalculatorWorkCommand.CalculateResult -> calculateResultWork()
-            is CalculatorWorkCommand.ChangeMathOperator -> changeMathOperatorWork(command.operator)
-            is CalculatorWorkCommand.SelectedNumber -> selectedNumberWork(command.number)
-            is CalculatorWorkCommand.ClearLastNumber -> clearLastNumberWork()
+
+        override suspend fun work(command: CalculatorWorkCommand) = when (command) {
+            is CalculatorWorkCommand.Calculate -> try {
+                calculateWork(command.current)
+            } catch (e: Exception) {
+                ActionResult(CalculatorAction.ChangeResult("-1"))
+            }
+            is CalculatorWorkCommand.CalculateResult -> calculateResultWork(command.current)
+            is CalculatorWorkCommand.ChangeMathOperator -> changeMathOperatorWork(command.current, command.operator)
+            is CalculatorWorkCommand.SelectedNumber -> selectedNumberWork(command.current, command.number)
+            is CalculatorWorkCommand.ClearLastNumber -> clearLastNumberWork(command.current)
         }
 
-        private fun clearLastNumberWork() = flow<CalculatorEffect> {
-            val current = stateCommunicator.read().currentValue
+        private fun clearLastNumberWork(current: String): WorkResult<CalculatorAction, CalculatorEffect> {
             val newValue = if (current.isNotEmpty()) current.substring(0, current.length - 1) else ""
-            if (newValue.isEmpty()) {
-                emit(CalculatorAction.ChangeData("", ""))
+            return if (newValue.isEmpty()) {
+                ActionResult(CalculatorAction.ChangeData("", ""))
             } else {
-                if (newValue.last().isNotMathOperator()) {
+                if (newValue.last().isNotMathOperator() && newValue.last() != '.') {
                     val newResult = mathManger.calculateValue(newValue).toString()
-                    emit(CalculatorAction.ChangeData(newValue, newResult))
+                    ActionResult(CalculatorAction.ChangeData(newValue, newResult))
                 } else {
-                    emit(CalculatorAction.ChangeCurrentValue(newValue))
+                    ActionResult(CalculatorAction.ChangeData(newValue, ""))
                 }
             }
         }
 
-        private fun calculateResultWork() = flow {
-            val current = stateCommunicator.read().currentValue
+        private suspend fun calculateResultWork(current: String): WorkResult<CalculatorAction, CalculatorEffect> {
             val newValue = mathManger.calculateValue(current).toString()
-            emit(CalculatorAction.ChangeData(newValue, ""))
+            val savableItem = CalculateHistory(
+                result = newValue,
+                mathInput = current,
+                date = dateManager.fetchBeginningCurrentDay(),
+            )
+            return when (val either = interactor.saveResultToHistory(savableItem)) {
+                is Either.Right -> ActionResult(CalculatorAction.ChangeData(newValue, ""))
+                is Either.Left -> EffectResult(CalculatorEffect.ShowFailure(either.data))
+            }
         }
 
-        private fun changeMathOperatorWork(operator: String) = flow {
-            val current = stateCommunicator.read().currentValue
-            if (current.isNotEmpty()) {
+        private fun changeMathOperatorWork(
+            current: String,
+            operator: String,
+        ): WorkResult<CalculatorAction, CalculatorEffect> {
+            return if (current.isNotEmpty()) {
                 if (current.last().isNotMathOperator()) {
                     if (operator == ".") {
-                        val lastOperator = current.indexOfLast { it == '-' || it == '+' || it == '*' || it == '/' }
+                        val lastOperator =
+                            current.indexOfLast { it == '-' || it == '+' || it == '*' || it == '/' }
                         val lastDot = current.indexOfLast { it == '.' }
-                        if (lastDot > lastOperator) return@flow
+                        if (lastDot > lastOperator) return ActionResult(CalculatorAction.OnEmptyAction)
                     }
-                    emit(CalculatorAction.ChangeCurrentValue(current + operator))
+                    ActionResult(CalculatorAction.ChangeData(value = current + operator, result = ""))
                 } else {
                     if (current.last().toString() != operator && current.length != 1) {
-                        emit(CalculatorAction.ChangeCurrentValue(current.substring(0, current.length - 1) + operator))
+                        val value = current.substring(0, current.length - 1) + operator
+                        ActionResult(CalculatorAction.ChangeData(value = value, result = ""))
+                    } else {
+                        ActionResult(CalculatorAction.OnEmptyAction)
                     }
                 }
             } else if (operator == "-") {
-                emit(CalculatorAction.ChangeCurrentValue(operator))
+                ActionResult(CalculatorAction.ChangeCurrentValue(operator))
+            } else {
+                ActionResult(CalculatorAction.OnEmptyAction)
             }
         }
 
-        private fun selectedNumberWork(number: String) = flow {
-            val current = stateCommunicator.read().currentValue
+        private fun selectedNumberWork(
+            current: String,
+            number: String,
+        ): WorkResult<CalculatorAction, CalculatorEffect> {
             val newValue = current + number
             val newResult = mathManger.calculateValue(newValue).toString()
-            emit(CalculatorAction.ChangeData(newValue, newResult))
+            return ActionResult(CalculatorAction.ChangeData(newValue, newResult))
         }
 
-        private fun calculateWork() = flow<CalculatorEffect> {
-            val current = stateCommunicator.read().currentValue
-            if (current.isNotEmpty() && current.last().isNotMathOperator()) {
-                emit(CalculatorAction.ChangeResult(mathManger.calculateValue(current).toString()))
+        private fun calculateWork(current: String): WorkResult<CalculatorAction, CalculatorEffect> {
+            return if (current.isNotEmpty() && current.last().isNotMathOperator()) {
+                ActionResult(
+                    CalculatorAction.ChangeResult(
+                        mathManger.calculateValue(current).toString(),
+                    ),
+                )
+            } else {
+                ActionResult(CalculatorAction.OnEmptyAction)
             }
         }
     }
 }
 
 internal sealed class CalculatorWorkCommand : WorkCommand {
-    object Calculate : CalculatorWorkCommand()
-    object ClearLastNumber : CalculatorWorkCommand()
-    object CalculateResult : CalculatorWorkCommand()
-    data class SelectedNumber(val number: String) : CalculatorWorkCommand()
-    data class ChangeMathOperator(val operator: String) : CalculatorWorkCommand()
+    data class Calculate(val current: String) : CalculatorWorkCommand()
+    data class ClearLastNumber(val current: String) : CalculatorWorkCommand()
+    data class CalculateResult(val current: String) : CalculatorWorkCommand()
+    data class SelectedNumber(val current: String, val number: String) : CalculatorWorkCommand()
+    data class ChangeMathOperator(val current: String, val operator: String) :
+        CalculatorWorkCommand()
 }

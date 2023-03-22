@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 repositories {
@@ -44,12 +45,15 @@ dependencies {
     implementation(project(":module-injector"))
     implementation(project(":core:utils"))
     implementation(project(":core:ui"))
+    implementation(project(":features:history:api"))
 
     implementation(Dependencies.Voyager.navigator)
 
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.AndroidX.appcompat)
     implementation(Dependencies.AndroidX.material)
+
+    implementation(Dependencies.Dagger.core)
 
     testImplementation(Dependencies.Test.jUnit)
     androidTestImplementation(Dependencies.Test.jUnitExt)

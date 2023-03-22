@@ -19,6 +19,8 @@ import dagger.Module
 import dagger.Provides
 import ru.aleshin.features.calculator.impl.di.CalculatorFeatureDependencies
 import ru.aleshin.features.calculator.impl.di.holder.CalculatorComponentHolder
+import ru.aleshin.features.history.impl.di.HistoryFeatureDependencies
+import ru.aleshin.features.history.impl.di.holder.HistoryComponentHolder
 import ru.aleshin.features.settings.impl.di.SettingsFeatureDependencies
 import ru.aleshin.features.settings.impl.di.holder.SettingsComponentHolder
 
@@ -32,6 +34,14 @@ class FeatureModule {
     fun provideCalculatorFeatureStarter(
         dependencies: CalculatorFeatureDependencies,
     ) = with(CalculatorComponentHolder) {
+        init(dependencies)
+        fetchApi().fetchStarter()
+    }
+
+    @Provides
+    fun provideHistoryFeatureStarter(
+        dependencies: HistoryFeatureDependencies,
+    ) = with(HistoryComponentHolder) {
         init(dependencies)
         fetchApi().fetchStarter()
     }

@@ -20,6 +20,7 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import ru.aleshin.core.utils.managers.CoroutineManager
 import ru.aleshin.core.utils.platform.screenmodel.BaseScreenModel
+import ru.aleshin.core.utils.platform.screenmodel.work.WorkScope
 import ru.aleshin.features.calculator.impl.di.holder.CalculatorComponentHolder
 import ru.aleshin.features.calculator.impl.navigations.NavigationManager
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorAction
@@ -33,31 +34,66 @@ import javax.inject.Inject
  */
 internal class CalculatorScreenModel @Inject constructor(
     private val navigationManager: NavigationManager,
-    communicator: CalculatorStateCommunicator,
-    actor: CalculatorActor,
+    private val calculateProcessor: CalculatorWorkProcessor,
+    private val historyProcessor: HistoryWorkProcessor,
+    stateCommunicator: CalculatorStateCommunicator,
+    effectCommunicator: CalculatorEffectCommunicator,
     coroutineManager: CoroutineManager,
 ) : BaseScreenModel<CalculatorViewState, CalculatorEvent, CalculatorAction, CalculatorEffect>(
-    stateCommunicator = communicator,
-    actor = actor,
+    stateCommunicator = stateCommunicator,
+    effectCommunicator = effectCommunicator,
     coroutineManager = coroutineManager,
 ) {
-    override fun handleEffect(effect: CalculatorEffect) = when (effect) {
-        is CalculatorEffect.ShowSettingsFeature -> navigationManager.navigateToSettingsFeature()
-        is CalculatorAction -> runOnBackground {
-            val currentState = stateCommunicator.read()
-            val newState = reduce(effect, currentState)
 
-            stateCommunicator.update(newState)
+    override suspend fun WorkScope<CalculatorViewState, CalculatorAction, CalculatorEffect>.handleEvent(
+        event: CalculatorEvent,
+    ) {
+        when (event) {
+            is CalculatorEvent.PressSettingsButton -> navigationManager.navigateToSettingsFeature()
+            is CalculatorEvent.PressHistoryButton -> navigationManager.navigateToHistoryFeature()
+
+            is CalculatorEvent.ClearLastNumber -> calculateProcessor.work(
+                command = CalculatorWorkCommand.ClearLastNumber(state().currentValue),
+            ).handleWork()
+
+            is CalculatorEvent.SelectedNumber -> calculateProcessor.work(
+                command = CalculatorWorkCommand.SelectedNumber(state().currentValue, event.number),
+            ).handleWork()
+
+            is CalculatorEvent.SelectedMathOperator -> calculateProcessor.work(
+                CalculatorWorkCommand.ChangeMathOperator(state().currentValue, event.operator),
+            ).handleWork()
+
+            is CalculatorEvent.PressResultButton -> calculateProcessor.work(
+                CalculatorWorkCommand.CalculateResult(state().currentValue),
+            ).handleWork()
+
+            is CalculatorEvent.CheckHistory -> historyProcessor.work(
+                HistoryWorkCommand.CheckAndSetHistory,
+            ).handleWork()
+
+            is CalculatorEvent.ClearField -> {
+                sendAction(CalculatorAction.ChangeResult(""))
+                sendAction(CalculatorAction.ChangeCurrentValue(""))
+            }
         }
     }
 
-    override fun reduce(
+    override suspend fun reduce(
         action: CalculatorAction,
         currentState: CalculatorViewState,
     ) = when (action) {
-        is CalculatorAction.ChangeData -> currentState.copy(currentValue = action.value, result = action.result)
         is CalculatorAction.ChangeCurrentValue -> currentState.copy(currentValue = action.value)
         is CalculatorAction.ChangeResult -> currentState.copy(result = action.result)
+        is CalculatorAction.OnEmptyAction -> currentState.copy()
+        is CalculatorAction.SetHistoryTemplate -> currentState.copy(
+            currentValue = action.input,
+            result = action.result,
+        )
+        is CalculatorAction.ChangeData -> currentState.copy(
+            currentValue = action.value,
+            result = action.result,
+        )
     }
 
     override fun onDispose() {

@@ -19,9 +19,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import ru.aleshin.core.utils.platform.screen.rememberViewState
+import ru.aleshin.core.utils.platform.screen.ScreenContent
 import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorTheme
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorEvent
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorViewState
@@ -36,29 +37,29 @@ internal class CalculatorScreen @Inject constructor() : Screen {
 
     @Composable
     @OptIn(ExperimentalMaterial3Api::class)
-    override fun Content() {
-        val screenModel = rememberCalculatorScreenModel()
-        val state = rememberViewState(screenModel, CalculatorViewState())
-
+    override fun Content() = ScreenContent(rememberCalculatorScreenModel(), CalculatorViewState()) {
         CalculatorTheme {
             Scaffold(
                 content = { paddingValues ->
                     CalculatorContent(
                         modifier = Modifier.padding(paddingValues),
-                        state = state,
-                        onNumberSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedNumber(it)) },
-                        onOperatorSelected = { screenModel.dispatchEvent(CalculatorEvent.SelectedMathOperator(it)) },
-                        onResultButtonClick = { screenModel.dispatchEvent(CalculatorEvent.PressResultButton) },
-                        onClearAllButtonClick = { screenModel.dispatchEvent(CalculatorEvent.ClearField) },
-                        onClearLastButtonClick = { screenModel.dispatchEvent(CalculatorEvent.ClearLastNumber) },
+                        state = fetchState(),
+                        onNumberSelected = { dispatchEvent(CalculatorEvent.SelectedNumber(it)) },
+                        onOperatorSelected = { dispatchEvent(CalculatorEvent.SelectedMathOperator(it)) },
+                        onResultButtonClick = { dispatchEvent(CalculatorEvent.PressResultButton) },
+                        onClearAllButtonClick = { dispatchEvent(CalculatorEvent.ClearField) },
+                        onClearLastButtonClick = { dispatchEvent(CalculatorEvent.ClearLastNumber) },
                     )
                 },
                 topBar = {
                     CalculatorTopAppBar(
-                        onSettingsButtonClick = { screenModel.dispatchEvent(CalculatorEvent.PressSettingsButton) },
+                        onSettingsButtonClick = { dispatchEvent(CalculatorEvent.PressSettingsButton) },
+                        onHistoryButtonClick = { dispatchEvent(CalculatorEvent.PressHistoryButton) },
                     )
                 },
             )
+
+            LaunchedEffect(Unit) { dispatchEvent(CalculatorEvent.CheckHistory) }
         }
     }
 }

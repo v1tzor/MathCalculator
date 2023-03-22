@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
 import ru.aleshin.features.settings.impl.presentation.theme.SettingsThemeRes
 import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsViewState
+import ru.aleshin.features.settings.impl.presentation.ui.views.LanguageChooser
 import ru.aleshin.features.settings.impl.presentation.ui.views.ThemeColorsChooser
 
 /**
@@ -51,6 +52,12 @@ internal fun SettingsContent(
                     onThemeColorUpdate = { colorsType ->
                         onUpdateThemeSettings.invoke(state.themeSettings.copy(themeColors = colorsType))
                     },
+                )
+                LanguageChooser(
+                    language = state.themeSettings.language,
+                    onLanguageChanged = { language ->
+                        onUpdateThemeSettings.invoke(state.themeSettings.copy(language = language))
+                    }
                 )
             }
         }

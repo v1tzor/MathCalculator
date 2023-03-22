@@ -88,6 +88,9 @@ dependencies {
     implementation(project(":features:calculator:api"))
     implementation(project(":features:calculator:impl"))
 
+    implementation(project(":features:history:impl"))
+    implementation(project(":features:history:api"))
+
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.AndroidX.appcompat)
     implementation(Dependencies.AndroidX.material)

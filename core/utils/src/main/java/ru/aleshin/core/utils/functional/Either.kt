@@ -28,3 +28,15 @@ sealed class Either<out L, out R> {
 
     val isRight = this is Right
 }
+
+suspend fun <L, R> Either<L, R>.handle(
+    onLeftAction: suspend (L) -> Unit = {},
+    onRightAction: suspend (R) -> Unit = {},
+) = when (this) {
+    is Either.Left -> onLeftAction.invoke(this.data)
+    is Either.Right -> onRightAction.invoke(this.data)
+}
+
+typealias DomainResult<L, R> = Either<L, R>
+
+typealias UnitDomainResult<L> = Either<L, Unit>

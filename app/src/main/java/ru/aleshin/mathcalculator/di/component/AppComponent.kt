@@ -20,6 +20,7 @@ import dagger.BindsInstance
 import dagger.Component
 import ru.aleshin.core.utils.di.ApplicationContext
 import ru.aleshin.features.calculator.impl.di.CalculatorFeatureDependencies
+import ru.aleshin.features.history.impl.di.HistoryFeatureDependencies
 import ru.aleshin.features.settings.impl.di.SettingsFeatureDependencies
 import ru.aleshin.mathcalculator.di.modules.*
 import ru.aleshin.mathcalculator.presentation.ui.main.MainActivity
@@ -33,6 +34,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         DataBaseModule::class,
+        DataModule::class,
         NavigationModule::class,
         PresentationModule::class,
         DomainModules::class,
@@ -40,7 +42,10 @@ import javax.inject.Singleton
         FeatureModule::class,
     ],
 )
-interface AppComponent : SettingsFeatureDependencies, CalculatorFeatureDependencies {
+interface AppComponent :
+    SettingsFeatureDependencies,
+    CalculatorFeatureDependencies,
+    HistoryFeatureDependencies {
 
     fun inject(activity: MainActivity)
     fun fetchSplashScreenModel(): SplashScreenModel

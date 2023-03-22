@@ -17,10 +17,7 @@ package ru.aleshin.features.settings.impl.presentation.ui.contract // ktlint-dis
 
 import kotlinx.parcelize.Parcelize
 import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseAction
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEffect
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEvent
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseViewState
+import ru.aleshin.core.utils.platform.screenmodel.contract.*
 import ru.aleshin.features.settings.impl.domain.common.SettingsFailures
 import ru.aleshin.features.settings.impl.domain.entities.Settings
 
@@ -39,9 +36,7 @@ internal sealed class SettingsEvent : BaseEvent {
     data class ChangedThemeSettings(val themeSettings: ThemeSettings) : SettingsEvent()
 }
 
-internal sealed class SettingsEffect : BaseEffect {
-    object ShowPreviousFeature : SettingsEffect()
-}
+internal sealed class SettingsEffect : EmptyUiEffect
 
 internal sealed class SettingsAction : SettingsEffect(), BaseAction {
     data class ChangeAllSettings(val settings: Settings) : SettingsAction()

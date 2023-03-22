@@ -16,15 +16,24 @@
 package ru.aleshin.features.calculator.impl.navigations
 
 import cafe.adriel.voyager.core.screen.Screen
+import ru.aleshin.core.utils.functional.Either
 import ru.aleshin.features.calculator.api.CalculatorFeatureStarter
+import ru.aleshin.features.calculator.impl.domain.interactors.CalculatorInteractor
+import ru.aleshin.features.history.api.domain.CalculateHistory
 import javax.inject.Inject
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
  */
 internal class CalculatorFeatureStarterImpl @Inject constructor(
-    private val settingsScreen: Screen,
+    private val calculatorScreen: Screen,
+    private val calculatorInteractor: CalculatorInteractor,
 ) : CalculatorFeatureStarter {
 
-    override fun provideMainScreen(): Screen = settingsScreen
+    override suspend fun provideMainScreen(history: CalculateHistory?): Screen {
+        return when (val either = calculatorInteractor.sendHistory(history)) {
+            is Either.Right -> calculatorScreen
+            is Either.Left -> error("Error send history to calculator feature. Failure: ${either.data}")
+        }
+    }
 }

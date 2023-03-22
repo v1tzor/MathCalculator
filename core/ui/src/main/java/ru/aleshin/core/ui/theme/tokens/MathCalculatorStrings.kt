@@ -22,14 +22,20 @@ import androidx.compose.runtime.staticCompositionLocalOf
  */
 data class MathCalculatorStrings(
     val appName: String,
+    val alertDialogDismissTitle: String,
+    val alertDialogConfirmTitle: String
 )
 
 internal val russianMathCalculatorString = MathCalculatorStrings(
     appName = "MathCalculator",
+    alertDialogDismissTitle = "Отмена",
+    alertDialogConfirmTitle = "Выбрать",
 )
 
 internal val englishMathCalculatorString = MathCalculatorStrings(
     appName = "MathCalculator",
+    alertDialogDismissTitle = "Cancel",
+    alertDialogConfirmTitle = "OK",
 )
 
 val LocalMathCalculatorStrings = staticCompositionLocalOf<MathCalculatorStrings> {

@@ -16,6 +16,7 @@
 package ru.aleshin.features.calculator.impl.navigations
 
 import ru.aleshin.core.utils.navigations.Router
+import ru.aleshin.features.history.api.HistoryFeatureStarter
 import ru.aleshin.features.settings.api.SettingsFeatureStarter
 import javax.inject.Inject
 import javax.inject.Provider
@@ -26,14 +27,21 @@ import javax.inject.Provider
 internal interface NavigationManager {
 
     fun navigateToSettingsFeature()
+    fun navigateToHistoryFeature()
 
     class Base @Inject constructor(
         private val settingsFeatureStarter: Provider<SettingsFeatureStarter>,
+        private val historyFeatureStarter: Provider<HistoryFeatureStarter>,
         private val router: Router,
     ) : NavigationManager {
 
         override fun navigateToSettingsFeature() {
             val screen = settingsFeatureStarter.get().provideMainScreen()
+            router.navigateTo(screen)
+        }
+
+        override fun navigateToHistoryFeature() {
+            val screen = historyFeatureStarter.get().provideMainScreen()
             router.navigateTo(screen)
         }
     }

@@ -16,10 +16,7 @@
 package ru.aleshin.mathcalculator.presentation.ui.splash.contract // ktlint-disable filename
 
 import kotlinx.parcelize.Parcelize
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseAction
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEffect
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEvent
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseViewState
+import ru.aleshin.core.utils.platform.screenmodel.contract.*
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
@@ -33,8 +30,6 @@ sealed class SplashEvent : BaseEvent {
     object AfterSplash : SplashEvent()
 }
 
-sealed class SplashEffect : BaseEffect {
-    object NavigateToCalculator : SplashEffect()
-}
+sealed class SplashEffect : EmptyUiEffect
 
 sealed class SplashAction : SplashEffect(), BaseAction

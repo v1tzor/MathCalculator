@@ -35,10 +35,7 @@ import ru.aleshin.mathcalculator.presentation.theme.MainThemeRes
 fun SplashContent(
     onSplashExit: () -> Unit,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Image(
             modifier = Modifier.size(MainThemeRes.dimens.launcherIcon),
             painter = painterResource(id = MainThemeRes.icons.launcher),
@@ -47,9 +44,7 @@ fun SplashContent(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(MainThemeRes.dimens.authorTitlePadding),
+        modifier = Modifier.fillMaxSize().padding(MainThemeRes.dimens.authorTitlePadding),
         contentAlignment = Alignment.BottomCenter,
     ) {
         Text(

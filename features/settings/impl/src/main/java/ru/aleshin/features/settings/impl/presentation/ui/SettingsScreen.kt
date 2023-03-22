@@ -22,7 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import ru.aleshin.core.utils.platform.screen.rememberViewState
+import ru.aleshin.core.utils.platform.screen.ScreenContent
 import ru.aleshin.features.settings.impl.presentation.theme.SettingsTheme
 import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsEvent
 import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsViewState
@@ -37,23 +37,20 @@ internal class SettingsScreen @Inject constructor() : Screen {
 
     @Composable
     @OptIn(ExperimentalMaterial3Api::class)
-    override fun Content() {
-        val screenModel = rememberSettingsScreenModel()
-        val state = rememberViewState(screenModel, SettingsViewState())
-
+    override fun Content() = ScreenContent(rememberSettingsScreenModel(), SettingsViewState()) {
         SettingsTheme {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 content = { paddingValues ->
                     SettingsContent(
                         modifier = Modifier.padding(paddingValues),
-                        state = state,
-                        onUpdateThemeSettings = { screenModel.dispatchEvent(SettingsEvent.ChangedThemeSettings(it)) },
+                        state = fetchState(),
+                        onUpdateThemeSettings = { dispatchEvent(SettingsEvent.ChangedThemeSettings(it)) },
                     )
                 },
                 topBar = {
                     SettingsTopAppBar(
-                        onBackButtonClick = { screenModel.dispatchEvent(SettingsEvent.PressBackButton) },
+                        onBackButtonClick = { dispatchEvent(SettingsEvent.PressBackButton) },
                     )
                 },
             )

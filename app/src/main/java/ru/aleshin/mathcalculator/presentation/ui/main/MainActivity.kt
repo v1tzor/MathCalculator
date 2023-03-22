@@ -20,8 +20,11 @@ import ru.aleshin.core.ui.theme.MathCalculatorTheme
 import ru.aleshin.core.utils.navigations.navigator.AppNavigator
 import ru.aleshin.core.utils.navigations.navigator.NavigatorManager
 import ru.aleshin.core.utils.platform.activity.BaseActivity
-import ru.aleshin.core.utils.platform.screen.rememberViewState
+import ru.aleshin.core.utils.platform.screen.ScreenContent
 import ru.aleshin.mathcalculator.application.fetchApp
+import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainAction
+import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainEffect
+import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainEvent
 import ru.aleshin.mathcalculator.presentation.ui.main.contract.MainViewState
 import ru.aleshin.mathcalculator.presentation.ui.main.viewmodel.MainViewModel
 import ru.aleshin.mathcalculator.presentation.ui.splash.SplashScreen
@@ -30,7 +33,7 @@ import javax.inject.Inject
 /**
  * @author Stanislav Aleshin on 01.03.2023.
  */
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity<MainViewState, MainEvent, MainAction, MainEffect>() {
 
     @Inject
     lateinit var navigatorManager: NavigatorManager
@@ -41,8 +44,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun initDI() = fetchApp().appComponent.inject(this)
 
     @Composable
-    override fun Content() {
-        val state = rememberViewState(viewModel, MainViewState())
+    override fun Content() = ScreenContent(viewModel, MainViewState()) {
+        val state = fetchState()
 
         MathCalculatorTheme(
             themeColorsType = state.colors,

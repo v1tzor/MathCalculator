@@ -19,6 +19,8 @@ import dagger.Component
 import ru.aleshin.core.utils.di.FeatureScope
 import ru.aleshin.features.calculator.api.CalculatorFeatureApi
 import ru.aleshin.features.calculator.impl.di.CalculatorFeatureDependencies
+import ru.aleshin.features.calculator.impl.di.modules.DataModule
+import ru.aleshin.features.calculator.impl.di.modules.DomainModule
 import ru.aleshin.features.calculator.impl.di.modules.PresentationModule
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorScreenModel
 
@@ -27,7 +29,7 @@ import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.Calculato
  */
 @FeatureScope
 @Component(
-    modules = [PresentationModule::class],
+    modules = [DataModule::class, DomainModule::class, PresentationModule::class],
     dependencies = [CalculatorFeatureDependencies::class],
 )
 internal interface CalculatorComponent : CalculatorFeatureApi {

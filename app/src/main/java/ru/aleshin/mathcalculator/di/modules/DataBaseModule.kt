@@ -22,9 +22,11 @@ import dagger.Provides
 import ru.aleshin.core.database.data.datasources.settings.SettingsDataBase
 import ru.aleshin.core.database.data.datasources.settings.ThemeSettingsDao
 import ru.aleshin.core.database.data.datasources.settings.ThemeSettingsLocalDataSource
-import ru.aleshin.core.database.data.repositories.ThemeSettingsRepositoryImpl
-import ru.aleshin.core.database.domain.repositories.ThemeSettingsRepository
 import ru.aleshin.core.utils.di.ApplicationContext
+import ru.aleshin.features.history.api.data.datasources.CalculatorDataBase
+import ru.aleshin.features.history.api.data.datasources.CalculatorHistoryDao
+import ru.aleshin.features.history.api.data.datasources.CalculatorHistoryLocalDataSource
+import java.util.Calendar
 import javax.inject.Singleton
 
 /**
@@ -35,21 +37,27 @@ class DataBaseModule {
 
     @Provides
     @Singleton
-    fun provideThemeSettingsRepositoryImpl(
-        localDataSource: ThemeSettingsLocalDataSource,
-    ): ThemeSettingsRepository = ThemeSettingsRepositoryImpl(localDataSource)
-
-    @Provides
-    @Singleton
     fun provideThemeSettingsLocalDataSource(
         dao: ThemeSettingsDao,
     ): ThemeSettingsLocalDataSource = ThemeSettingsLocalDataSource.Base(dao)
 
     @Provides
     @Singleton
+    fun provideCalculatorHistoryLocalDataSource(
+        dao: CalculatorHistoryDao,
+    ): CalculatorHistoryLocalDataSource = CalculatorHistoryLocalDataSource.Base(dao)
+
+    @Provides
+    @Singleton
     fun provideThemeSettingsDao(
         dataBase: SettingsDataBase,
     ): ThemeSettingsDao = dataBase.fetchThemeSettingsDao()
+
+    @Provides
+    @Singleton
+    fun provideCalculatorHistoryDao(
+        dataBase: CalculatorDataBase,
+    ): CalculatorHistoryDao = dataBase.fetchHistoryDao()
 
     @Provides
     @Singleton
@@ -60,4 +68,17 @@ class DataBaseModule {
         klass = SettingsDataBase::class.java,
         name = SettingsDataBase.NAME,
     ).createFromAsset("database/settings_prepopulated.db").build()
+
+    @Provides
+    @Singleton
+    fun provideCalculatorDataBase(
+        @ApplicationContext context: Context,
+    ) = Room.databaseBuilder(
+        context = context,
+        klass = CalculatorDataBase::class.java,
+        name = CalculatorDataBase.NAME,
+    ).build()
+
+    @Provides
+    fun provideCalendar(): Calendar = Calendar.getInstance()
 }

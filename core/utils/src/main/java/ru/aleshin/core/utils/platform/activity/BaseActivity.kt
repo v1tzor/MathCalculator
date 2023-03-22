@@ -21,11 +21,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import ru.aleshin.core.utils.platform.screenmodel.BaseViewModel
+import ru.aleshin.core.utils.platform.screenmodel.contract.BaseAction
+import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEvent
+import ru.aleshin.core.utils.platform.screenmodel.contract.BaseUiEffect
+import ru.aleshin.core.utils.platform.screenmodel.contract.BaseViewState
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
  */
-abstract class BaseActivity<VM : ViewModel> : ComponentActivity() {
+abstract class BaseActivity<S : BaseViewState, E : BaseEvent, A : BaseAction, F : BaseUiEffect> :
+    ComponentActivity() {
 
     protected val viewModel by lazy {
         ViewModelProvider(this, fetchViewModelFactory())[fetchViewModelClass()]
@@ -44,5 +50,5 @@ abstract class BaseActivity<VM : ViewModel> : ComponentActivity() {
 
     abstract fun fetchViewModelFactory(): ViewModelProvider.Factory
 
-    abstract fun fetchViewModelClass(): Class<VM>
+    abstract fun fetchViewModelClass(): Class<out BaseViewModel<S, E, A, F>>
 }

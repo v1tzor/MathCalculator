@@ -16,10 +16,8 @@
 package ru.aleshin.features.calculator.impl.presentation.ui.contract
 
 import kotlinx.parcelize.Parcelize
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseAction
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEffect
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEvent
-import ru.aleshin.core.utils.platform.screenmodel.contract.BaseViewState
+import ru.aleshin.core.utils.platform.screenmodel.contract.*
+import ru.aleshin.features.calculator.impl.domain.entities.CalculatorFailures
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
@@ -37,13 +35,17 @@ internal sealed class CalculatorEvent : BaseEvent {
     object ClearLastNumber : CalculatorEvent()
     object ClearField : CalculatorEvent()
     object PressSettingsButton : CalculatorEvent()
+    object PressHistoryButton : CalculatorEvent()
+    object CheckHistory : CalculatorEvent()
 }
 
-internal sealed class CalculatorEffect : BaseEffect {
-    object ShowSettingsFeature : CalculatorEffect()
+internal sealed class CalculatorEffect : BaseUiEffect {
+    data class ShowFailure(val failure: CalculatorFailures) : CalculatorEffect()
 }
 
 internal sealed class CalculatorAction : CalculatorEffect(), BaseAction {
+    object OnEmptyAction : CalculatorAction()
+    data class SetHistoryTemplate(val result: String, val input: String) : CalculatorAction()
     data class ChangeCurrentValue(val value: String) : CalculatorAction()
     data class ChangeResult(val result: String) : CalculatorAction()
     data class ChangeData(val value: String, val result: String) : CalculatorAction()

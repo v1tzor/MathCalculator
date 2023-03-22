@@ -23,6 +23,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 internal data class CalculatorStrings(
     val calculatorTitle: String,
     val settingsIconDesc: String,
+    val historyIconDesc: String,
+    val moreIconDesc: String,
     val sumButtonTitle: String,
     val differenceButtonTitle: String,
     val clearLastButtonTitle: String,
@@ -47,6 +49,8 @@ internal data class CalculatorStrings(
 internal val russianSettingsString = CalculatorStrings(
     calculatorTitle = "Калькулятор",
     settingsIconDesc = "Настройки",
+    historyIconDesc = "История",
+    moreIconDesc = "Дополнительно",
     nineButtonTitle = "9",
     eightButtonTitle = "8",
     sevenButtonTitle = "7",
@@ -59,18 +63,20 @@ internal val russianSettingsString = CalculatorStrings(
     zeroButtonTitle = "0",
     sumButtonTitle = "+",
     differenceButtonTitle = "-",
-    clearLastButtonTitle = "Del",
+    clearLastButtonTitle = "⌫",
     clearAllButtonTitle = "C",
     resultButtonTitle = "=",
     emptyButtonTitle = " ",
     splitButtonTitle = "/",
     multiplyButtonTitle = "*",
-    dotButtonTitle = "."
+    dotButtonTitle = ".",
 )
 
 internal val englishSettingsString = CalculatorStrings(
     calculatorTitle = "Сalculator",
     settingsIconDesc = "Settings",
+    historyIconDesc = "History",
+    moreIconDesc = "More",
     nineButtonTitle = "9",
     eightButtonTitle = "8",
     sevenButtonTitle = "7",
@@ -83,13 +89,13 @@ internal val englishSettingsString = CalculatorStrings(
     zeroButtonTitle = "0",
     sumButtonTitle = "+",
     differenceButtonTitle = "-",
-    clearLastButtonTitle = "Del",
+    clearLastButtonTitle = "⌫",
     clearAllButtonTitle = "C",
     resultButtonTitle = "=",
     emptyButtonTitle = " ",
     splitButtonTitle = "/",
     multiplyButtonTitle = "*",
-    dotButtonTitle = "."
+    dotButtonTitle = ".",
 )
 
 internal val LocalCalculatorStrings = staticCompositionLocalOf<CalculatorStrings> {

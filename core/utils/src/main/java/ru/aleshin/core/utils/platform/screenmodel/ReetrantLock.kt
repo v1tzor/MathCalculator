@@ -15,12 +15,14 @@
 */
 package ru.aleshin.core.utils.platform.screenmodel
 
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(DelicateCoroutinesApi::class)
 suspend fun <T> Mutex.withReentrantLock(block: suspend () -> T): T {
     val key = ReentrantMutexContextKey(this)
     if (coroutineContext[key] != null) return block()

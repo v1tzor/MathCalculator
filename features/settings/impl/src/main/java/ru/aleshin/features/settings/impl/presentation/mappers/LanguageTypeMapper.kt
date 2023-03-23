@@ -1,7 +1,7 @@
 package ru.aleshin.features.settings.impl.presentation.mappers
 
 import androidx.compose.runtime.Composable
-import ru.aleshin.core.database.domain.entities.settings.LanguageType
+import ru.aleshin.features.settings.api.domain.entities.LanguageType
 import ru.aleshin.features.settings.impl.presentation.theme.SettingsThemeRes
 
 /**

@@ -17,9 +17,9 @@ package ru.aleshin.features.calculator.impl.navigations
 
 import cafe.adriel.voyager.core.screen.Screen
 import ru.aleshin.core.utils.functional.Either
-import ru.aleshin.features.calculator.api.CalculatorFeatureStarter
+import ru.aleshin.features.calculator.api.navigation.CalculatorFeatureStarter
 import ru.aleshin.features.calculator.impl.domain.interactors.CalculatorInteractor
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import javax.inject.Inject
 
 /**

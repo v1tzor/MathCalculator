@@ -50,6 +50,7 @@ internal class CalculatorScreenModel @Inject constructor(
     ) {
         when (event) {
             is CalculatorEvent.PressSettingsButton -> navigationManager.navigateToSettingsFeature()
+
             is CalculatorEvent.PressHistoryButton -> navigationManager.navigateToHistoryFeature()
 
             is CalculatorEvent.ClearLastNumber -> calculateProcessor.work(
@@ -86,10 +87,6 @@ internal class CalculatorScreenModel @Inject constructor(
         is CalculatorAction.ChangeCurrentValue -> currentState.copy(currentValue = action.value)
         is CalculatorAction.ChangeResult -> currentState.copy(result = action.result)
         is CalculatorAction.OnEmptyAction -> currentState.copy()
-        is CalculatorAction.SetHistoryTemplate -> currentState.copy(
-            currentValue = action.input,
-            result = action.result,
-        )
         is CalculatorAction.ChangeData -> currentState.copy(
             currentValue = action.value,
             result = action.result,

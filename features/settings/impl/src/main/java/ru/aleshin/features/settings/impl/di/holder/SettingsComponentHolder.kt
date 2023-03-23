@@ -15,7 +15,7 @@
 */
 package ru.aleshin.features.settings.impl.di.holder
 
-import ru.aleshin.features.settings.api.SettingsFeatureApi
+import ru.aleshin.features.settings.api.di.SettingsFeatureApi
 import ru.aleshin.features.settings.impl.di.SettingsFeatureDependencies
 import ru.aleshin.features.settings.impl.di.component.SettingsComponent
 import ru.aleshin.module_injector.BaseComponentHolder

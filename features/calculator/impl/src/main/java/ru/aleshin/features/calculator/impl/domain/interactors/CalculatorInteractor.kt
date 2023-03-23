@@ -20,7 +20,7 @@ import ru.aleshin.core.utils.functional.UnitDomainResult
 import ru.aleshin.features.calculator.impl.domain.common.CalculatorEitherWrapper
 import ru.aleshin.features.calculator.impl.domain.entities.CalculatorFailures
 import ru.aleshin.features.calculator.impl.domain.repositories.CalculatorRepository
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import javax.inject.Inject
 
 /**

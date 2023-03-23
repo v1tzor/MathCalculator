@@ -45,7 +45,6 @@ internal sealed class CalculatorEffect : BaseUiEffect {
 
 internal sealed class CalculatorAction : CalculatorEffect(), BaseAction {
     object OnEmptyAction : CalculatorAction()
-    data class SetHistoryTemplate(val result: String, val input: String) : CalculatorAction()
     data class ChangeCurrentValue(val value: String) : CalculatorAction()
     data class ChangeResult(val result: String) : CalculatorAction()
     data class ChangeData(val value: String, val result: String) : CalculatorAction()

@@ -36,15 +36,10 @@ internal interface HistoryWorkProcessor : WorkProcessor<HistoryWorkCommand, Calc
         override suspend fun work(command: HistoryWorkCommand) = when (command) {
             HistoryWorkCommand.CheckAndSetHistory -> {
                 when (val either = interactor.readSendHistory()) {
-                    is Either.Right -> {
-                        val data = either.data
-                        if (data != null) {
-                            ActionResult(CalculatorAction.SetHistoryTemplate(data.result, data.mathInput))
-                        } else {
-                            ActionResult(CalculatorAction.OnEmptyAction)
-                        }
-                    }
                     is Either.Left -> EffectResult(CalculatorEffect.ShowFailure(either.data))
+                    is Either.Right -> either.data?.let {
+                        ActionResult(CalculatorAction.ChangeData(it.mathInput, it.result))
+                    } ?: ActionResult(CalculatorAction.OnEmptyAction)
                 }
             }
         }

@@ -15,7 +15,7 @@
 */
 package ru.aleshin.features.settings.impl.di
 
-import ru.aleshin.core.database.domain.repositories.ThemeSettingsRepository
+import ru.aleshin.features.settings.api.domain.repository.ThemeSettingsRepository
 import ru.aleshin.core.utils.managers.CoroutineManager
 import ru.aleshin.core.utils.navigations.Router
 import ru.aleshin.module_injector.BaseFeatureDependencies

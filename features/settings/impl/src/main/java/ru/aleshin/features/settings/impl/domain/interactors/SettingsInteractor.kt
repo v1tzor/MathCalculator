@@ -15,8 +15,8 @@
 */
 package ru.aleshin.features.settings.impl.domain.interactors
 
-import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
-import ru.aleshin.core.database.domain.repositories.ThemeSettingsRepository
+import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
+import ru.aleshin.features.settings.api.domain.repository.ThemeSettingsRepository
 import ru.aleshin.core.utils.functional.Either
 import ru.aleshin.features.settings.impl.domain.common.SettingsEitherWrapper
 import ru.aleshin.features.settings.impl.domain.common.SettingsFailures

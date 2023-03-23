@@ -15,7 +15,7 @@
 */
 package ru.aleshin.features.calculator.impl.di.holder
 
-import ru.aleshin.features.calculator.api.CalculatorFeatureApi
+import ru.aleshin.features.calculator.api.di.CalculatorFeatureApi
 import ru.aleshin.features.calculator.impl.di.CalculatorFeatureDependencies
 import ru.aleshin.features.calculator.impl.di.component.CalculatorComponent
 import ru.aleshin.module_injector.BaseComponentHolder

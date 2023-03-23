@@ -20,11 +20,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import dagger.Binds
 import dagger.Module
 import ru.aleshin.core.utils.di.FeatureScope
-import ru.aleshin.features.calculator.api.CalculatorFeatureStarter
+import ru.aleshin.features.calculator.api.navigation.CalculatorFeatureStarter
 import ru.aleshin.features.calculator.impl.navigations.CalculatorFeatureStarterImpl
 import ru.aleshin.features.calculator.impl.navigations.NavigationManager
 import ru.aleshin.features.calculator.impl.presentation.ui.CalculatorScreen
-import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.*
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorEffectCommunicator
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorScreenModel
 import ru.aleshin.features.calculator.impl.presentation.ui.screenmodel.CalculatorStateCommunicator

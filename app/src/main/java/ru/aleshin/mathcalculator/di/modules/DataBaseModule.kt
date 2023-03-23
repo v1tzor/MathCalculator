@@ -19,9 +19,9 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import ru.aleshin.core.database.data.datasources.settings.SettingsDataBase
-import ru.aleshin.core.database.data.datasources.settings.ThemeSettingsDao
-import ru.aleshin.core.database.data.datasources.settings.ThemeSettingsLocalDataSource
+import ru.aleshin.features.settings.api.data.datasource.SettingsDataBase
+import ru.aleshin.features.settings.api.data.datasource.ThemeSettingsDao
+import ru.aleshin.features.settings.api.data.datasource.ThemeSettingsLocalDataSource
 import ru.aleshin.core.utils.di.ApplicationContext
 import ru.aleshin.features.history.api.data.datasources.CalculatorDataBase
 import ru.aleshin.features.history.api.data.datasources.CalculatorHistoryDao

@@ -18,7 +18,7 @@ package ru.aleshin.features.history.api.data.mappers
 import ru.aleshin.core.utils.extensions.mapToDate
 import ru.aleshin.core.utils.functional.Mapper
 import ru.aleshin.features.history.api.data.model.CalculateHistoryModel
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import javax.inject.Inject
 
 /**

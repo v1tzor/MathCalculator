@@ -15,7 +15,7 @@
 */
 package ru.aleshin.features.settings.impl.presentation.ui.screensmodel
 
-import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
+import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
 import ru.aleshin.core.utils.functional.Either
 import ru.aleshin.core.utils.platform.screenmodel.work.ActionResult
 import ru.aleshin.core.utils.platform.screenmodel.work.WorkCommand

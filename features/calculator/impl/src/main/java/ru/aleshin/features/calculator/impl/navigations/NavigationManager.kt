@@ -16,8 +16,8 @@
 package ru.aleshin.features.calculator.impl.navigations
 
 import ru.aleshin.core.utils.navigations.Router
-import ru.aleshin.features.history.api.HistoryFeatureStarter
-import ru.aleshin.features.settings.api.SettingsFeatureStarter
+import ru.aleshin.features.history.api.navigation.HistoryFeatureStarter
+import ru.aleshin.features.settings.api.navigation.SettingsFeatureStarter
 import javax.inject.Inject
 import javax.inject.Provider
 

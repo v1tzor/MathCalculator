@@ -20,7 +20,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
+import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
 import ru.aleshin.features.settings.impl.presentation.theme.SettingsThemeRes
 import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsViewState
 import ru.aleshin.features.settings.impl.presentation.ui.views.LanguageChooser

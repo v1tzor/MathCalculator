@@ -18,7 +18,7 @@ package ru.aleshin.features.history.api.data.repositories
 import ru.aleshin.features.history.api.data.datasources.CalculatorHistoryLocalDataSource
 import ru.aleshin.features.history.api.data.mappers.CalculatorHistoryDataToDomainMapper
 import ru.aleshin.features.history.api.data.mappers.CalculatorHistoryDomainToDataMapper
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import ru.aleshin.features.history.api.domain.repositories.CalculatorHistoryRepository
 import javax.inject.Inject
 

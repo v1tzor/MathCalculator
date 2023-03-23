@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 repositories {
@@ -50,6 +52,12 @@ dependencies {
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.AndroidX.appcompat)
     implementation(Dependencies.AndroidX.material)
+
+    implementation(Dependencies.Dagger.core)
+
+    implementation(Dependencies.Room.core)
+    implementation(Dependencies.Room.ktx)
+    kapt(Dependencies.Room.kapt)
 
     testImplementation(Dependencies.Test.jUnit)
     androidTestImplementation(Dependencies.Test.jUnitExt)

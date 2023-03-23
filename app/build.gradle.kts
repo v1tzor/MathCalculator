@@ -79,7 +79,6 @@ android {
 dependencies {
     implementation(project(":module-injector"))
     implementation(project(":core:ui"))
-    implementation(project(":core:database"))
     implementation(project(":core:utils"))
 
     implementation(project(":features:settings:api"))

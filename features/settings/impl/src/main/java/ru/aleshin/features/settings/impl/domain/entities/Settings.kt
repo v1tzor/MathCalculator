@@ -17,7 +17,7 @@ package ru.aleshin.features.settings.impl.domain.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
+import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
 import ru.aleshin.core.utils.functional.Mapper
 
 /**

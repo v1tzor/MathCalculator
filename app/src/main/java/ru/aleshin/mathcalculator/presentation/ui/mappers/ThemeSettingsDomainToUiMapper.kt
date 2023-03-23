@@ -15,8 +15,8 @@
 */
 package ru.aleshin.mathcalculator.presentation.ui.mappers
 
-import ru.aleshin.core.database.domain.entities.settings.LanguageType
-import ru.aleshin.core.database.domain.entities.settings.ThemeColorsType
+import ru.aleshin.features.settings.api.domain.entities.LanguageType
+import ru.aleshin.features.settings.api.domain.entities.ThemeColorsType
 import ru.aleshin.core.ui.theme.material.ThemeColorsUiType
 import ru.aleshin.core.ui.theme.tokens.LanguageUiType
 

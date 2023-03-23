@@ -60,7 +60,6 @@ dependencies {
     implementation(project(":module-injector"))
     implementation(project(":core:utils"))
     implementation(project(":core:ui"))
-    implementation(project(":core:database"))
     implementation(project(":features:calculator:api"))
     implementation(project(":features:settings:api"))
     implementation(project(":features:history:api"))

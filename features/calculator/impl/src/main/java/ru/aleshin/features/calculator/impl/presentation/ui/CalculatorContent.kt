@@ -18,17 +18,16 @@ package ru.aleshin.features.calculator.impl.presentation.ui
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorThemeRes
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorViewState
 import ru.aleshin.features.calculator.impl.presentation.ui.views.*
-import ru.aleshin.features.calculator.impl.presentation.ui.views.CalculateFirstLine
 
 /**
  * @author Stanislav Aleshin on 01.03.2023.
@@ -47,36 +46,150 @@ internal fun CalculatorContent(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        CalculatorTitle(calculateLine = state.currentValue, result = state.result)
-        Spacer(modifier = Modifier.weight(1f))
+        Box(modifier = Modifier.weight(0.3f), contentAlignment = Alignment.Center) {
+            CalculatorTitle(
+                calculateLine = state.currentValue,
+                result = state.result,
+            )
+        }
         Divider(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp),
+            Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
             color = MaterialTheme.colorScheme.outlineVariant,
         )
-        Row(modifier = Modifier.padding(bottom = 32.dp)) {
+        Row(
+            modifier = Modifier.weight(0.7f).padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                CalculateFirstLine(onOperatorClick = onOperatorSelected, onClearAllClick = onClearAllButtonClick)
-                CalculateSecondLine(onNumberClick = onNumberSelected)
-                CalculateThirtyLine(onNumberClick = onNumberSelected)
-                CalculateFourthLine(onNumberClick = onNumberSelected)
-                CalculateFifthLine(onNumberClick = onNumberSelected, onOperatorClick = onOperatorSelected)
+                ActionButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = { onClearAllButtonClick.invoke() },
+                    color = MaterialTheme.colorScheme.errorContainer,
+                    title = CalculatorThemeRes.strings.clearAllButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.sevenButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.fourButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.oneButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    title = CalculatorThemeRes.strings.emptyButtonTitle,
+                )
             }
-            CalculateVerticalColumn(
-                modifier = Modifier.width(100.dp),
-                onOperatorClick = onOperatorSelected,
-                onClearLastClick = onClearLastButtonClick,
-                onResultClick = onResultButtonClick,
-            )
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                ActionButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onOperatorSelected,
+                    title = CalculatorThemeRes.strings.splitButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.eightButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.fiveButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.twoButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.zeroButtonTitle,
+                )
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                ActionButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onOperatorSelected,
+                    title = CalculatorThemeRes.strings.multiplyButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.nineButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.sixButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onNumberSelected,
+                    title = CalculatorThemeRes.strings.threeButtonTitle,
+                )
+                NumberButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onOperatorSelected,
+                    title = CalculatorThemeRes.strings.dotButtonTitle,
+                )
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                Column(
+                    modifier = Modifier.weight(0.6f),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    ActionButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = { onClearLastButtonClick.invoke() },
+                        title = CalculatorThemeRes.strings.clearLastButtonTitle,
+                    )
+                    ActionButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onOperatorSelected,
+                        title = CalculatorThemeRes.strings.sumButtonTitle,
+                    )
+                    ActionButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onOperatorSelected,
+                        title = CalculatorThemeRes.strings.differenceButtonTitle,
+                    )
+                }
+                ActionResultButton(
+                    modifier = Modifier.weight(0.4f),
+                    onClick = onResultButtonClick,
+                )
+            }
         }
     }
 }
 
 @Composable
-internal fun CalculatorTitle(calculateLine: String, result: String) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp)) {
+internal fun CalculatorTitle(
+    modifier: Modifier = Modifier,
+    calculateLine: String,
+    result: String,
+) {
+    Column(modifier = modifier.padding(horizontal = 16.dp)) {
         val scrollState = rememberScrollState()
         Row(
             modifier = Modifier

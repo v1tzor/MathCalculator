@@ -16,7 +16,7 @@
 package ru.aleshin.features.settings.impl.navigations
 
 import cafe.adriel.voyager.core.screen.Screen
-import ru.aleshin.features.settings.api.SettingsFeatureStarter
+import ru.aleshin.features.settings.api.navigation.SettingsFeatureStarter
 import javax.inject.Inject
 
 /**

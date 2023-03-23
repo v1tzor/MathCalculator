@@ -20,7 +20,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import dagger.Binds
 import dagger.Module
 import ru.aleshin.core.utils.di.FeatureScope
-import ru.aleshin.features.history.api.HistoryFeatureStarter
+import ru.aleshin.features.history.api.navigation.HistoryFeatureStarter
 import ru.aleshin.features.history.impl.navigation.HistoryFeatureStarterImpl
 import ru.aleshin.features.history.impl.navigation.NavigationManager
 import ru.aleshin.features.history.impl.presentation.ui.HistoryScreen

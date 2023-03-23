@@ -20,7 +20,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import dagger.Binds
 import dagger.Module
 import ru.aleshin.core.utils.di.FeatureScope
-import ru.aleshin.features.settings.api.SettingsFeatureStarter
+import ru.aleshin.features.settings.api.navigation.SettingsFeatureStarter
 import ru.aleshin.features.settings.impl.navigations.NavigationManager
 import ru.aleshin.features.settings.impl.navigations.SettingsFeatureStarterImpl
 import ru.aleshin.features.settings.impl.presentation.ui.SettingsScreen

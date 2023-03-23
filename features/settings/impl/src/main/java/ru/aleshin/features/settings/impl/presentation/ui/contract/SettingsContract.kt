@@ -16,7 +16,7 @@
 package ru.aleshin.features.settings.impl.presentation.ui.contract // ktlint-disable filename
 
 import kotlinx.parcelize.Parcelize
-import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
+import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
 import ru.aleshin.core.utils.platform.screenmodel.contract.*
 import ru.aleshin.features.settings.impl.domain.common.SettingsFailures
 import ru.aleshin.features.settings.impl.domain.entities.Settings

@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.aleshin.core.database.domain.entities.settings.LanguageType
+import ru.aleshin.features.settings.api.domain.entities.LanguageType
 import ru.aleshin.core.ui.theme.MathCalculatorRes
 import ru.aleshin.features.settings.impl.presentation.mappers.toLanguageName
 import ru.aleshin.features.settings.impl.presentation.theme.SettingsThemeRes

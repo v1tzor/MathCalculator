@@ -16,7 +16,7 @@
 package ru.aleshin.features.history.impl.navigation
 
 import cafe.adriel.voyager.core.screen.Screen
-import ru.aleshin.features.history.api.HistoryFeatureStarter
+import ru.aleshin.features.history.api.navigation.HistoryFeatureStarter
 import javax.inject.Inject
 
 /**

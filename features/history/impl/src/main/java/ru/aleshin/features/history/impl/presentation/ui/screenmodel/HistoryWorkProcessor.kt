@@ -17,7 +17,7 @@ package ru.aleshin.features.history.impl.presentation.ui.screenmodel
 
 import ru.aleshin.core.utils.functional.Either
 import ru.aleshin.core.utils.platform.screenmodel.work.*
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import ru.aleshin.features.history.impl.domain.interactors.HistoryInteractor
 import ru.aleshin.features.history.impl.presentation.ui.contract.HistoryAction
 import ru.aleshin.features.history.impl.presentation.ui.contract.HistoryEffect

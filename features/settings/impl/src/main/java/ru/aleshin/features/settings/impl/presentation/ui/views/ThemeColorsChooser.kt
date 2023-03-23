@@ -22,7 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.aleshin.core.database.domain.entities.settings.ThemeColorsType
+import ru.aleshin.features.settings.api.domain.entities.ThemeColorsType
 import ru.aleshin.core.ui.theme.MathCalculatorRes
 import ru.aleshin.core.ui.views.SegmentedButtonItem
 import ru.aleshin.core.ui.views.SegmentedButtons

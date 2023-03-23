@@ -2,7 +2,7 @@ package ru.aleshin.features.calculator.impl.data.repositories
 
 import ru.aleshin.features.calculator.impl.data.datasource.CalculatorLocalDataSource
 import ru.aleshin.features.calculator.impl.domain.repositories.CalculatorRepository
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import javax.inject.Inject
 
 /**

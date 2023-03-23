@@ -17,7 +17,7 @@ package ru.aleshin.features.history.impl.di
 
 import ru.aleshin.core.utils.managers.CoroutineManager
 import ru.aleshin.core.utils.navigations.Router
-import ru.aleshin.features.calculator.api.CalculatorFeatureStarter
+import ru.aleshin.features.calculator.api.navigation.CalculatorFeatureStarter
 import ru.aleshin.features.history.api.domain.repositories.CalculatorHistoryRepository
 import ru.aleshin.module_injector.BaseFeatureDependencies
 

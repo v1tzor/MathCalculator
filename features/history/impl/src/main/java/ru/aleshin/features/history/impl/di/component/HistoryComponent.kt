@@ -17,7 +17,7 @@ package ru.aleshin.features.history.impl.di.component
 
 import dagger.Component
 import ru.aleshin.core.utils.di.FeatureScope
-import ru.aleshin.features.history.api.HistoryFeatureApi
+import ru.aleshin.features.history.api.di.HistoryFeatureApi
 import ru.aleshin.features.history.impl.di.HistoryFeatureDependencies
 import ru.aleshin.features.history.impl.di.modules.DomainModule
 import ru.aleshin.features.history.impl.di.modules.PresentationModule

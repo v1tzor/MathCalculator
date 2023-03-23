@@ -23,7 +23,7 @@ import ru.aleshin.core.utils.platform.screenmodel.work.*
 import ru.aleshin.features.calculator.impl.domain.interactors.HistoryInteractor
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorAction
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorEffect
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import javax.inject.Inject
 
 /**

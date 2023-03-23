@@ -15,7 +15,7 @@
 */
 package ru.aleshin.features.history.api.domain.repositories
 
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 
 /**
  * @author Stanislav Aleshin on 22.03.2023.

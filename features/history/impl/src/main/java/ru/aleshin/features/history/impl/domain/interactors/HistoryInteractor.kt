@@ -17,7 +17,7 @@ package ru.aleshin.features.history.impl.domain.interactors
 
 import ru.aleshin.core.utils.functional.DomainResult
 import ru.aleshin.core.utils.functional.UnitDomainResult
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import ru.aleshin.features.history.api.domain.repositories.CalculatorHistoryRepository
 import ru.aleshin.features.history.impl.domain.common.HistoryEitherWrapper
 import ru.aleshin.features.history.impl.domain.entities.HistoryFailures

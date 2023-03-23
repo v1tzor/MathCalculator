@@ -16,8 +16,8 @@
 package ru.aleshin.mathcalculator.domain.interactors
 
 import kotlinx.coroutines.flow.Flow
-import ru.aleshin.core.database.domain.entities.settings.ThemeSettings
-import ru.aleshin.core.database.domain.repositories.ThemeSettingsRepository
+import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
+import ru.aleshin.features.settings.api.domain.repository.ThemeSettingsRepository
 import ru.aleshin.core.utils.functional.Either
 import ru.aleshin.mathcalculator.domain.common.MainEitherWrapper
 import ru.aleshin.mathcalculator.domain.common.MainFailures

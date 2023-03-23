@@ -2,7 +2,7 @@ package ru.aleshin.features.calculator.impl.data.datasource
 
 import kotlinx.coroutines.sync.Mutex
 import ru.aleshin.core.utils.platform.screenmodel.withReentrantLock
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import javax.inject.Inject
 
 /**

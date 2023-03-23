@@ -17,12 +17,12 @@ package ru.aleshin.mathcalculator.di.modules
 
 import dagger.Binds
 import dagger.Module
-import ru.aleshin.core.database.data.repositories.ThemeSettingsRepositoryImpl
-import ru.aleshin.core.database.domain.repositories.ThemeSettingsRepository
 import ru.aleshin.features.history.api.data.mappers.CalculatorHistoryDataToDomainMapper
 import ru.aleshin.features.history.api.data.mappers.CalculatorHistoryDomainToDataMapper
 import ru.aleshin.features.history.api.data.repositories.CalculatorHistoryRepositoryImpl
 import ru.aleshin.features.history.api.domain.repositories.CalculatorHistoryRepository
+import ru.aleshin.features.settings.api.data.repository.ThemeSettingsRepositoryImpl
+import ru.aleshin.features.settings.api.domain.repository.ThemeSettingsRepository
 import javax.inject.Singleton
 
 /**

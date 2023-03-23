@@ -20,7 +20,7 @@ import ru.aleshin.core.utils.platform.screenmodel.contract.BaseAction
 import ru.aleshin.core.utils.platform.screenmodel.contract.BaseEvent
 import ru.aleshin.core.utils.platform.screenmodel.contract.BaseUiEffect
 import ru.aleshin.core.utils.platform.screenmodel.contract.BaseViewState
-import ru.aleshin.features.history.api.domain.CalculateHistory
+import ru.aleshin.features.history.api.domain.entities.CalculateHistory
 import ru.aleshin.features.history.impl.domain.entities.HistoryFailures
 
 /**

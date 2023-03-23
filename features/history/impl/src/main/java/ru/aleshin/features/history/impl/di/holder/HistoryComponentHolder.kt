@@ -15,7 +15,7 @@
 */
 package ru.aleshin.features.history.impl.di.holder
 
-import ru.aleshin.features.history.api.HistoryFeatureApi
+import ru.aleshin.features.history.api.di.HistoryFeatureApi
 import ru.aleshin.features.history.impl.di.HistoryFeatureDependencies
 import ru.aleshin.features.history.impl.di.component.HistoryComponent
 import ru.aleshin.module_injector.BaseComponentHolder

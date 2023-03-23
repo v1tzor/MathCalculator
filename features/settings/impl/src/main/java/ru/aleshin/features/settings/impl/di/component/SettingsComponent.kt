@@ -17,7 +17,7 @@ package ru.aleshin.features.settings.impl.di.component
 
 import dagger.Component
 import ru.aleshin.core.utils.di.FeatureScope
-import ru.aleshin.features.settings.api.SettingsFeatureApi
+import ru.aleshin.features.settings.api.di.SettingsFeatureApi
 import ru.aleshin.features.settings.impl.di.SettingsFeatureDependencies
 import ru.aleshin.features.settings.impl.di.modules.DomainModule
 import ru.aleshin.features.settings.impl.di.modules.PresentationModule

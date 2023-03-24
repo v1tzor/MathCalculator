@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,9 @@ internal fun NumberButton(
     title: String,
 ) {
     Surface(
-        modifier = modifier.sizeIn(minHeight = 36.dp).fillMaxWidth().clickable { onClick.invoke(title) },
+        modifier = modifier.sizeIn(minHeight = 36.dp).fillMaxWidth()
+            .clip(MaterialTheme.shapes.small)
+            .clickable { onClick.invoke(title) },
         shape = MaterialTheme.shapes.medium,
         tonalElevation = MathCalculatorRes.elevations.levelOne,
     ) {
@@ -61,7 +64,9 @@ internal fun ActionButton(
     title: String,
 ) {
     Surface(
-        modifier = modifier.sizeIn(minHeight = 36.dp).fillMaxWidth().clickable { onClick.invoke(title) },
+        modifier = modifier.sizeIn(minHeight = 36.dp).fillMaxWidth()
+            .clip(MaterialTheme.shapes.small)
+            .clickable { onClick.invoke(title) },
         shape = MaterialTheme.shapes.small,
         color = color,
     ) {
@@ -83,7 +88,9 @@ internal fun ActionResultButton(
 ) {
     val title = CalculatorThemeRes.strings.resultButtonTitle
     Surface(
-        modifier = modifier.sizeIn(minHeight = 36.dp).fillMaxWidth().clickable { onClick() },
+        modifier = modifier.sizeIn(minHeight = 36.dp).fillMaxWidth()
+            .clip(MaterialTheme.shapes.small)
+            .clickable { onClick() },
         shape = MaterialTheme.shapes.small,
         color = MaterialTheme.colorScheme.secondaryContainer,
     ) {

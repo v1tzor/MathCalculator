@@ -15,6 +15,7 @@
 */
 package ru.aleshin.core.utils.managers
 
+import ru.aleshin.core.utils.extensions.correctCalculatorRound
 import ru.aleshin.core.utils.extensions.isNotMathOperator
 import javax.inject.Inject
 
@@ -23,13 +24,13 @@ import javax.inject.Inject
  */
 interface MathManager {
 
-    fun calculateValue(current: String): Float
+    fun calculateValue(current: String): Double
 
     class Base @Inject constructor() : MathManager {
 
-        override fun calculateValue(current: String): Float {
-            var result = 0f
-            var multiply = 1f
+        override fun calculateValue(current: String): Double {
+            var result = 0.0
+            var multiply: Double? = null
             var lastOperator = '+'
             var number = ""
             var count = 0
@@ -42,17 +43,17 @@ interface MathManager {
                             if (lastOperator == '-') if (i != '*' && i != '/') result -= number.toFloat()
                             if (lastOperator == '+') if (i != '*' && i != '/') result += number.toFloat()
                             if (i == '*' || i == '/') {
-                                if (multiply != 1f) result += multiply
-                                multiply = 1f
-                                multiply = if (lastOperator == '-') -number.toFloat() else number.toFloat()
+                                if (multiply != null) result += multiply
+                                multiply = null
+                                multiply = if (lastOperator == '-') -number.toDouble() else number.toDouble()
                             } else {
-                                if (multiply != 1f) result += multiply
-                                multiply = 1f
+                                if (multiply != null) result += multiply
+                                multiply = null
                             }
                         } else if (lastOperator == '*' || lastOperator == '/') {
-                            if (lastOperator == '*') multiply *= number.toFloat()
-                            if (lastOperator == '/') multiply /= number.toFloat()
-                            if (count == current.length - 1) result += multiply
+                            if (lastOperator == '*') if (multiply != null) multiply *= number.toFloat() else multiply = number.toDouble()
+                            if (lastOperator == '/') if (multiply != null) multiply /= number.toFloat() else multiply = number.toDouble()
+                            if (count == current.length - 1) if (multiply != null) result += multiply
                         }
                         lastOperator = i
                         number = ""
@@ -60,7 +61,7 @@ interface MathManager {
                 }
                 count++
             }
-            return result
+            return result.correctCalculatorRound()
         }
     }
 }

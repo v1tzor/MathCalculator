@@ -15,8 +15,15 @@
 */
 package ru.aleshin.core.utils.extensions
 
+import ru.aleshin.core.utils.functional.Constants
+
 /**
  * @author Stanislav Aleshin on 05.03.2023.
  */
 
 fun Char.isNotMathOperator() = this != '-' && this != '+' && this != '*' && this != '/'
+
+fun Double.correctCalculatorRound(): Double {
+    val roundValue = Constants.Math.CORRECT_ROUND_VALUE
+    return Math.round(this * roundValue) / roundValue
+}

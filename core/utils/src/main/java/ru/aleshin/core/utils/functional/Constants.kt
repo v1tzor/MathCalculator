@@ -23,4 +23,8 @@ object Constants {
         const val PLUS = "+"
         const val MINUS = "-"
     }
+
+    object Math {
+        const val CORRECT_ROUND_VALUE = 10000000000.0
+    }
 }

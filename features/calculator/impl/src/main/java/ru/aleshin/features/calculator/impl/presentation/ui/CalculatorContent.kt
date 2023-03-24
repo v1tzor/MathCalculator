@@ -15,6 +15,7 @@
 */
 package ru.aleshin.features.calculator.impl.presentation.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -24,7 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.aleshin.core.ui.theme.MathCalculatorTheme
+import ru.aleshin.core.ui.theme.material.ThemeColorsUiType
+import ru.aleshin.core.ui.theme.tokens.LanguageUiType
+import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorTheme
 import ru.aleshin.features.calculator.impl.presentation.theme.CalculatorThemeRes
 import ru.aleshin.features.calculator.impl.presentation.ui.contract.CalculatorViewState
 import ru.aleshin.features.calculator.impl.presentation.ui.views.*
@@ -218,48 +224,48 @@ internal fun CalculatorTitle(
     }
 }
 
-// @Preview(showBackground = true, showSystemUi = true)
-// @Composable
-// internal fun SettingsTopAppBar_Light_Preview() {
-//    MathCalculatorTheme(
-//        dynamicColor = false,
-//        themeColorsType = ThemeColorsUiType.LIGHT,
-//        language = LanguageUiType.RU,
-//    ) {
-//        CalculatorTheme {
-//            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-//                CalculatorContent(
-//                    state = CalculatorViewState(),
-//                    onNumberSelected = {},
-//                    onOperatorSelected = {},
-//                    onResultButtonClick = {},
-//                    onClearLastButtonClick = {},
-//                    onClearAllButtonClick = {},
-//                )
-//            }
-//        }
-//    }
-// }
-//
-// @Preview(showBackground = true, showSystemUi = true)
-// @Composable
-// internal fun SettingsTopAppBar_Dark_Preview() {
-//    MathCalculatorTheme(
-//        dynamicColor = false,
-//        themeColorsType = ThemeColorsUiType.DARK,
-//        language = LanguageUiType.RU,
-//    ) {
-//        CalculatorTheme {
-//            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-//                CalculatorContent(
-//                    state = CalculatorViewState(),
-//                    onNumberSelected = {},
-//                    onOperatorSelected = {},
-//                    onResultButtonClick = {},
-//                    onClearLastButtonClick = {},
-//                    onClearAllButtonClick = {},
-//                )
-//            }
-//        }
-//    }
-// }
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun CalculatorContent_Light_Preview() {
+    MathCalculatorTheme(
+        dynamicColor = false,
+        themeColorsType = ThemeColorsUiType.LIGHT,
+        language = LanguageUiType.RU,
+    ) {
+        CalculatorTheme {
+            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                CalculatorContent(
+                    state = CalculatorViewState(),
+                    onNumberSelected = {},
+                    onOperatorSelected = {},
+                    onResultButtonClick = {},
+                    onClearLastButtonClick = {},
+                    onClearAllButtonClick = {},
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun CalculatorContent_Dark_Preview() {
+    MathCalculatorTheme(
+        dynamicColor = false,
+        themeColorsType = ThemeColorsUiType.DARK,
+        language = LanguageUiType.RU,
+    ) {
+        CalculatorTheme {
+            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                CalculatorContent(
+                    state = CalculatorViewState(),
+                    onNumberSelected = {},
+                    onOperatorSelected = {},
+                    onResultButtonClick = {},
+                    onClearLastButtonClick = {},
+                    onClearAllButtonClick = {},
+                )
+            }
+        }
+    }
+}

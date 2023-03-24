@@ -19,8 +19,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.aleshin.core.ui.theme.MathCalculatorTheme
+import ru.aleshin.core.ui.theme.material.ThemeColorsUiType
+import ru.aleshin.core.ui.theme.tokens.LanguageUiType
+import ru.aleshin.features.settings.api.domain.entities.LanguageType
+import ru.aleshin.features.settings.api.domain.entities.ThemeColorsType
 import ru.aleshin.features.settings.api.domain.entities.ThemeSettings
+import ru.aleshin.features.settings.impl.presentation.theme.SettingsTheme
 import ru.aleshin.features.settings.impl.presentation.theme.SettingsThemeRes
 import ru.aleshin.features.settings.impl.presentation.ui.contract.SettingsViewState
 import ru.aleshin.features.settings.impl.presentation.ui.views.LanguageChooser
@@ -57,29 +64,29 @@ internal fun SettingsContent(
                     language = state.themeSettings.language,
                     onLanguageChanged = { language ->
                         onUpdateThemeSettings.invoke(state.themeSettings.copy(language = language))
-                    }
+                    },
                 )
             }
         }
     }
 }
 
-// @Preview(showSystemUi = true, showBackground = true)
-// @Composable
-// private fun SettingsContent_Preview() {
-//    MathCalculatorTheme(
-//        dynamicColor = false,
-//        themeColorsType = ThemeColorsUiType.LIGHT,
-//        language = LanguageUiType.RU,
-//    ) {
-//        SettingsTheme {
-//            val state = SettingsViewState(
-//                themeSettings = ThemeSettings(LanguageType.RU, ThemeColorsType.LIGHT),
-//            )
-//            SettingsContent(
-//                state = state,
-//                onUpdateThemeSettings = {},
-//            )
-//        }
-//    }
-// }
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+private fun SettingsContent_Preview() {
+    MathCalculatorTheme(
+        dynamicColor = false,
+        themeColorsType = ThemeColorsUiType.LIGHT,
+        language = LanguageUiType.RU,
+    ) {
+        SettingsTheme {
+            val state = SettingsViewState(
+                themeSettings = ThemeSettings(LanguageType.RU, ThemeColorsType.LIGHT),
+            )
+            SettingsContent(
+                state = state,
+                onUpdateThemeSettings = {},
+            )
+        }
+    }
+}

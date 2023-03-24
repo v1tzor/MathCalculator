@@ -19,21 +19,20 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.aleshin.core.ui.theme.MathCalculatorRes
+import ru.aleshin.core.ui.theme.MathCalculatorTheme
 import ru.aleshin.features.history.api.domain.entities.CalculateHistory
+import ru.aleshin.features.history.impl.presentation.theme.HistoryTheme
 import ru.aleshin.features.history.impl.presentation.theme.HistoryThemeRes
 import ru.aleshin.features.history.impl.presentation.ui.contract.HistoryViewState
 import ru.aleshin.features.history.impl.presentation.ui.views.DateItem
 import ru.aleshin.features.history.impl.presentation.ui.views.HistoryItem
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -99,16 +98,16 @@ internal fun EmptyListView(modifier: Modifier = Modifier) {
     }
 }
 
-// @Composable
-// @Preview(showBackground = true, showSystemUi = true)
-// fun HistoryContent_Preview() {
-//    MathCalculatorTheme() {
-//        HistoryTheme {
-//            HistoryContent(
-//                state = HistoryViewState(),
-//                onSelectedItem = {},
-//                onDeleteItem = {},
-//            )
-//        }
-//    }
-// }
+@Composable
+@Preview(showBackground = true, showSystemUi = true)
+private fun HistoryContent_Preview() {
+    MathCalculatorTheme() {
+        HistoryTheme {
+            HistoryContent(
+                state = HistoryViewState(),
+                onSelectedItem = {},
+                onDeleteItem = {},
+            )
+        }
+    }
+}

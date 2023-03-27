@@ -19,7 +19,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.aleshin.core.utils.platform.screenmodel.BaseViewModel
 import ru.aleshin.core.utils.platform.screenmodel.contract.BaseAction

@@ -18,6 +18,8 @@ package ru.aleshin.core.utils.platform.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.CoroutineScope
 import ru.aleshin.core.utils.platform.screenmodel.ContractProvider
@@ -38,7 +40,7 @@ interface ScreenScope<S : BaseViewState, E : BaseEvent, F : BaseUiEffect> {
 
     class Base<S : BaseViewState, E : BaseEvent, F : BaseUiEffect>(
         private val contractProvider: ContractProvider<S, E, F>,
-        private val initialState: S,
+        internal val initialState: S,
     ) : ScreenScope<S, E, F> {
 
         override fun dispatchEvent(event: E) {
@@ -61,5 +63,28 @@ interface ScreenScope<S : BaseViewState, E : BaseEvent, F : BaseUiEffect> {
         ) = LaunchedEffect(Unit) {
             contractProvider.collectUiEffect { effect -> block(effect) }
         }
+    }
+}
+
+@Composable
+fun <S : BaseViewState, E : BaseEvent, F : BaseUiEffect> rememberScreenScope(
+    contractProvider: ContractProvider<S, E, F>,
+    initialState: S,
+): ScreenScope<S, E, F> {
+    return rememberSaveable(saver = screenScopeSaver(contractProvider)) {
+        ScreenScope.Base(contractProvider, initialState)
+    }
+}
+
+private fun <S : BaseViewState, E : BaseEvent, F : BaseUiEffect> screenScopeSaver(
+    contractProvider: ContractProvider<S, E, F>,
+): Saver<ScreenScope.Base<S, E, F>, S> = object : Saver<ScreenScope.Base<S, E, F>, S> {
+
+    override fun SaverScope.save(value: ScreenScope.Base<S, E, F>): S {
+        return value.initialState
+    }
+
+    override fun restore(value: S): ScreenScope.Base<S, E, F> {
+        return ScreenScope.Base(contractProvider, value)
     }
 }

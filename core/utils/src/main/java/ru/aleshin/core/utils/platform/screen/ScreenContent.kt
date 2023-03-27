@@ -30,6 +30,9 @@ fun <S : BaseViewState, E : BaseEvent, F : BaseUiEffect, CP : ContractProvider<S
     initialState: S,
     content: @Composable ScreenScope<S, E, F>.() -> Unit,
 ) {
-    val screenScope = ScreenScope.Base(screenModel, initialState)
+    val screenScope = rememberScreenScope(
+        contractProvider = screenModel,
+        initialState = initialState,
+    )
     content.invoke(screenScope)
 }
